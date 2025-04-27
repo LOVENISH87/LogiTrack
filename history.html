@@ -7,6 +7,7 @@
     <title>LogiTrack - Shipment History</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="shared-data.js"></script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -16,14 +17,19 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 100%;
             margin: 0;
-            padding-top: 3rem;
-            padding-left: 2rem;
-            padding-right: 2rem;
-            padding-bottom: 2rem;
+            padding: 0;
             width: 100%;
             box-sizing: border-box;
+            padding-top: 4rem;
+        }
+
+        .main-content {
+            padding: 1rem;
+            margin: 0 auto;
+            max-width: 1600px;
+            width: 100%;
         }
 
         .header {
@@ -39,6 +45,7 @@
             background-color: #f5f5f5;
             z-index: 1000;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
         }
 
         .back-btn {
@@ -59,11 +66,14 @@
 
         .shipment-item {
             background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
+            border-radius: 4px;
+            padding: 0.75rem;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             cursor: pointer;
             transition: transform 0.2s ease;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 0.75rem;
         }
 
         .shipment-item:hover {
@@ -102,25 +112,60 @@
             color: #0f5132;
         }
 
+        .status-returned {
+            background-color: #ffe0e0;
+            color: #d9534f;
+            border: 1px solid #f5b9b7;
+        }
+
         .order-details {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            padding: 0.5rem;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .detail-section {
-            margin-bottom: 1rem;
+            padding: 0.75rem;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            background-color: white;
+            width: 100%;
+            box-sizing: border-box;
+            transition: transform 0.2s ease;
+        }
+
+        .detail-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .detail-label {
             color: #666;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-bottom: 0.25rem;
+            font-weight: 500;
         }
 
         .detail-value {
             color: #000;
-            font-weight: 500;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .search-date {
+            grid-column: 1 / -1;
+            text-align: right;
+            color: #999;
+            font-size: 0.8rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid #e9ecef;
+            margin-top: 0.5rem;
         }
 
         .address-section {
@@ -171,52 +216,364 @@
             margin-top: 0.5rem;
         }
 
-        .search-date {
-            color: #999;
-            font-size: 0.8rem;
-            margin-top: 0.5rem;
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        body.dark-mode .header {
+            background-color: #87CEEB;
+            border-bottom: 1px solid #5FB6E1;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .back-btn {
+            color: #333;
+            font-weight: bold;
+        }
+
+        body.dark-mode .shipment-item {
+            background-color: #1a365d;
+            width: 100%;
+        }
+
+        body.dark-mode .shipment-item:hover {
+            background-color: #e6f7ff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode .order-header {
+            border-bottom: 1px solid #d1e9ff;
+        }
+
+        body.dark-mode .order-id {
+            color: #0066cc;
+        }
+
+        body.dark-mode .detail-section {
+            background-color: #2c5282;
+            border: 1px solid #4a5568;
+        }
+
+        body.dark-mode .detail-section:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode .detail-label {
+            color: #a0aec0;
+        }
+
+        body.dark-mode .detail-value {
+            color: #fff;
+        }
+
+        body.dark-mode .address-section {
+            border-top: 1px solid #d1e9ff;
+        }
+
+        body.dark-mode .no-shipments {
+            color: #555;
+        }
+
+        body.dark-mode .status-processing {
+            background-color: #ffe8cc;
+            color: #ff8c00;
+            border: 1px solid #ffcc80;
+        }
+
+        body.dark-mode .status-delivered {
+            background-color: #d4f8e8;
+            color: #00a86b;
+            border: 1px solid #a3e9c7;
+        }
+
+        body.dark-mode .status-returned {
+            background-color: #ffe0e0;
+            color: #d9534f;
+            border: 1px solid #f5b9b7;
+        }
+
+        body.dark-mode .search-date {
+            color: #a0aec0;
+            border-top: 1px solid #4a5568;
+        }
+
+        body.dark-mode .order-details {
+            background-color: #2c5282;
+            border: 1px solid #4a5568;
+            width: 100%;
+        }
+
+        body.dark-mode .left-sidebar,
+        body.dark-mode .right-sidebar {
+            background-color: #2c5282;
+            border: 1px solid #4a5568;
+        }
+
+        body.dark-mode .main-content {
+            background-color: #1a365d;
+        }
+
+        /* Account dropdown styles */
+        .account-container {
+            position: relative;
+            display: inline-block;
+            margin-left: 1rem;
+        }
+
+        .account-btn {
+            background: linear-gradient(45deg, #673ab7, #3f51b5);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(103, 58, 183, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .account-btn:hover {
+            background: linear-gradient(45deg, #3f51b5, #673ab7);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(103, 58, 183, 0.6);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            z-index: 100;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #eee;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f5f5f5;
+        }
+
+        .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-content a.logout-option {
+            color: #ff4444;
+            border-top: 1px solid #eee;
+        }
+
+        .dropdown-content a.logout-option:hover {
+            background-color: #ffe5e5;
+        }
+
+        body.dark-mode .dropdown-content {
+            background-color: #383838;
+            border: 1px solid #444;
+        }
+
+        body.dark-mode .dropdown-content a {
+            color: #fff;
+        }
+
+        body.dark-mode .dropdown-content a:hover {
+            background-color: #454545;
+        }
+
+        body.dark-mode .dropdown-content a.logout-option {
+            color: #ff6b6b;
+            border-top: 1px solid #444;
+        }
+
+        body.dark-mode .dropdown-content a.logout-option:hover {
+            background-color: #4a3434;
+        }
+
+        .show {
+            display: block;
+        }
+
+        /* Theme toggle button */
+        .theme-toggle-btn {
+            background: #f0f0f0;
+            color: #333;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-left: 1rem;
+            font-weight: 500;
+        }
+
+        .theme-toggle-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .history-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .history-header h1 {
+            font-size: 2rem;
+            color: #333;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode .history-header {
+            background-color: #2c5282;
+            border: 1px solid #4a5568;
+        }
+
+        body.dark-mode .history-header h1 {
+            color: #fff;
         }
     </style>
 </head>
 
-<body>
+<body class="dark-mode">
     <div class="container">
-        <div class="header">
-            <a href="dashboard.html" class="back-btn">
-                <i class="fas fa-arrow-left"></i> Back to Dashboard
-            </a>
-        </div>
+        <div class="main-content">
+            <div class="header">
+                <a href="dashboard.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+                <div style="display: flex; align-items: center; margin-left: auto;">
+                    <button id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleDarkMode()">
+                        <i class="fas fa-sun"></i> Light Mode
+                    </button>
+                    <div class="account-container">
+                        <div class="account-btn" id="account-btn">
+                            <i class="fas fa-user"></i> Account
+                        </div>
+                        <div class="dropdown-content" id="accountDropdown">
+                            <a href="dashboard.html">Dashboard</a>
+                            <a href="history.html">History</a>
+                            <a href="#" onclick="logout()" class="logout-option">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <div class="shipment-list" id="shipment-list">
-            <!-- Shipments will be inserted here -->
-        </div>
+            <div class="history-header">
+                <h1>Shipment History</h1>
+            </div>
 
-        <div class="no-shipments" id="no-shipments" style="display: none;">
-            <i class="fas fa-box-open"></i>
-            <h2>No Shipment History</h2>
-            <p>Your shipment history will appear here once you track shipments.</p>
-            <a href="dashboard.html" class="search-again-btn">Search Shipments</a>
+            <div class="shipment-list" id="shipment-list">
+                <!-- Shipments will be displayed here -->
+            </div>
+
+            <div class="no-shipments" id="no-shipments" style="display: none;">
+                <i class="fas fa-box-open"></i>
+                <h2>No Shipment History</h2>
+                <p>Your shipment history will appear here once you track shipments.</p>
+                <a href="dashboard.html" class="search-again-btn">Search Shipments</a>
+            </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Check if user is logged in
+            //  if user is logged in
             const isLoggedIn = sessionStorage.getItem('isLoggedIn');
             if (!isLoggedIn) {
                 window.location.href = 'index.html';
                 return;
             }
 
+            // Display shipments
             displayShipments();
+
+            // Account dropdown functionality
+            const accountBtn = document.getElementById('account-btn');
+            const accountDropdown = document.getElementById('accountDropdown');
+
+            // Toggle dropdown when account button is clicked
+            accountBtn.addEventListener('click', function () {
+                accountDropdown.classList.toggle('show');
+            });
+
+            // Close dropdown when clicking outside
+            window.addEventListener('click', function (event) {
+                if (!event.target.matches('#account-btn') && !event.target.closest('#account-btn')) {
+                    if (accountDropdown.classList.contains('show')) {
+                        accountDropdown.classList.remove('show');
+                    }
+                }
+            });
+
+            // Set theme based on localStorage
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            updateThemeButtonText();
         });
 
+        // Toggle dark mode
+        function toggleDarkMode() {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+
+            const isDarkMode = body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode);
+
+            updateThemeButtonText();
+        }
+
+        // Update theme button text based on current mode
+        function updateThemeButtonText() {
+            const themeToggleBtn = document.getElementById('themeToggleBtn');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+
+            if (isDarkMode) {
+                themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+            } else {
+                themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
+            }
+        }
+
+        // Logout functionality
+        function logout() {
+            sessionStorage.clear();
+            window.location.href = 'index.html';
+        }
+
         function displayShipments() {
-            const searchHistory = JSON.parse(localStorage.getItem('globalSearchHistory') || '[]');
+            const currentUser = sessionStorage.getItem('userEmail');
+            if (!currentUser) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const history = JSON.parse(sessionStorage.getItem('currentSessionHistory') || '[]');
             const shipmentList = document.getElementById('shipment-list');
             const noShipments = document.getElementById('no-shipments');
 
-            if (searchHistory.length === 0) {
+            if (history.length === 0) {
                 noShipments.style.display = 'block';
                 shipmentList.style.display = 'none';
                 return;
@@ -226,59 +583,80 @@
             shipmentList.style.display = 'block';
             shipmentList.innerHTML = '';
 
-            searchHistory.forEach(shipment => {
+            let foundItems = false;
+
+            history.forEach(shipment => {
+                // Skip if userEmail exists and doesn't match current user
+                if (shipment.userEmail && shipment.userEmail !== currentUser) {
+                    return;
+                }
+
+                foundItems = true;
                 const shipmentItem = document.createElement('div');
                 shipmentItem.className = 'shipment-item';
+
+                // Handle both old and new format
+                const searchId = shipment.value || shipment.searchValue || '';
+                const searchType = shipment.type || shipment.searchType || 'order';
+                const status = shipment.status || 'Processing';
+
                 shipmentItem.onclick = () => {
-                    window.location.href = `shipment-details.html?id=${shipment.searchValue}&type=${shipment.searchType}&status=${shipment.orderDetails.status}`;
+                    window.location.href = `shipment-details.html?id=${searchId}&type=${searchType}`;
                 };
 
-                const searchDate = new Date(shipment.timestamp);
-                const formattedDate = searchDate.toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
+                // Use time from the new format or timestamp from old format
+                let formattedDate = shipment.time || 'Unknown date';
+                if (shipment.timestamp && !shipment.time) {
+                    try {
+                        const searchDate = new Date(shipment.timestamp);
+                        if (!isNaN(searchDate.getTime())) {
+                            formattedDate = searchDate.toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            });
+                        }
+                    } catch (e) {
+                        console.error("Error formatting date:", e);
+                    }
+                }
 
                 shipmentItem.innerHTML = `
                     <div class="order-header">
-                        <div class="order-id">Order #${shipment.searchValue}</div>
-                        <div class="status-badge status-${shipment.orderDetails.status}">
-                            ${shipment.orderDetails.status.charAt(0).toUpperCase() + shipment.orderDetails.status.slice(1)}
+                        <div class="order-id">Order #${searchId}</div>
+                        <div class="status-badge status-${status.toLowerCase()}">
+                            ${status.charAt(0).toUpperCase() + status.slice(1)}
                         </div>
                     </div>
                     <div class="order-details">
                         <div class="detail-section">
-                            <div class="detail-label">Order Placed</div>
-                            <div class="detail-value">${shipment.orderDetails.order_date || 'N/A'}</div>
+                            <div class="detail-label">Search Type</div>
+                            <div class="detail-value">${searchType === 'order' ? 'Order ID' : 'Tracking ID'}</div>
                         </div>
                         <div class="detail-section">
-                            <div class="detail-label">Total Amount</div>
-                            <div class="detail-value">₹${shipment.orderDetails.total_amount || '0.00'}</div>
+                            <div class="detail-label">Status</div>
+                            <div class="detail-value">${status}</div>
                         </div>
                         <div class="detail-section">
-                            <div class="detail-label">Tracking ID</div>
-                            <div class="detail-value">${shipment.orderDetails.shipments?.[0]?.tracking_id || 'N/A'}</div>
-                        </div>
-                        <div class="address-section">
-                            <div class="detail-label">Shipping Address</div>
-                            <div class="detail-value">
-                                ${shipment.orderDetails.customer?.name || 'N/A'}<br>
-                                ${shipment.orderDetails.customer?.address || 'N/A'}<br>
-                                ${shipment.orderDetails.customer?.city || 'N/A'}, ${shipment.orderDetails.customer?.state || 'N/A'} ${shipment.orderDetails.customer?.postal_code || 'N/A'}<br>
-                                India
-                            </div>
+                            <div class="detail-label">Date</div>
+                            <div class="detail-value">${formattedDate}</div>
                         </div>
                         <div class="search-date">
-                            Searched on: ${formattedDate}
+                            Last updated: ${formattedDate}
                         </div>
                     </div>
                 `;
 
                 shipmentList.appendChild(shipmentItem);
             });
+
+            // If no shipments were found for current user
+            if (!foundItems) {
+                noShipments.style.display = 'block';
+                shipmentList.style.display = 'none';
+            }
         }
     </script>
 </body>

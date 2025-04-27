@@ -7,7 +7,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 // Database connection parameters
 $host = 'localhost';
-$dbname = 'logitrack';
+$dbname = 'logitrack_db';
 $username = 'root';
 $password = '';
 

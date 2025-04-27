@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policies - LogiTrack</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .policies-container {
+            width: 100%;
+            margin: 0;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .policies-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .policies-header h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .policies-header p {
+            color: #000;
+            font-weight: bold;
+        }
+
+        .policy-section {
+            max-width: 1800px;
+            margin: 0 auto 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .policy-section h2 {
+            color: #4a90e2;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .policy-section p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .policy-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .policy-list li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .policy-list li:before {
+            content: "•";
+            color: #4a90e2;
+            font-size: 1.2rem;
+            position: absolute;
+            left: 0;
+        }
+
+        /* Review Section Styles */
+        .review-section {
+            max-width: 1800px;
+            margin: 3rem auto 0 auto;
+            padding: 2rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .review-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .rating-summary {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .average-rating {
+            text-align: center;
+            margin-right: 2rem;
+        }
+
+        .average-rating .rating-number {
+            font-size: 3rem;
+            color: #4a90e2;
+            font-weight: bold;
+        }
+
+        .star-rating {
+            color: #ffd700;
+            font-size: 1.5rem;
+        }
+
+        .rating-bars {
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .rating-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .rating-label {
+            min-width: 60px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 12px;
+            background-color: #e9ecef;
+            border-radius: 6px;
+            margin: 0 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #4a90e2;
+            border-radius: 6px;
+        }
+
+        .rating-count {
+            min-width: 50px;
+            text-align: right;
+        }
+
+        /* Dark mode styles */
+        body.dark-mode .policies-container {
+            background-color: #2d2d2d;
+        }
+
+        body.dark-mode .policy-section {
+            background-color: #383838;
+        }
+
+        body.dark-mode .policies-header h1 {
+            color: #fff;
+        }
+
+        body.dark-mode .policy-section p {
+            color: #aaa;
+        }
+
+        body.dark-mode .review-section {
+            background-color: #383838;
+        }
+
+        body.dark-mode .rating-bars .progress-bar {
+            background-color: #4a4a4a;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="policies-container">
+        <div class="policies-header">
+            <h1>Our Policies</h1>
+            <p>Committed to transparency and excellence in service</p>
+        </div>
+
+        <div class="policy-section">
+            <h2>Shipping Policy</h2>
+            <p>At LogiTrack, we strive to provide reliable and efficient shipping services. Our shipping policy ensures
+                that your packages are handled with care and delivered on time.</p>
+            <ul class="policy-list">
+                <li>Standard shipping takes 3-5 business days within the country</li>
+                <li>International shipping varies by destination (7-14 business days)</li>
+                <li>Express shipping options available for urgent deliveries</li>
+                <li>Free tracking provided for all shipments</li>
+                <li>Insurance coverage available for valuable items</li>
+            </ul>
+        </div>
+
+        <div class="policy-section">
+            <h2>Return Policy</h2>
+            <p>We want to ensure your complete satisfaction with our services. Our return policy is designed to be fair
+                and transparent.</p>
+            <ul class="policy-list">
+                <li>Claims must be filed within 48 hours of delivery</li>
+                <li>Damaged items must be reported immediately with photo evidence</li>
+                <li>Full refund for lost packages (terms apply)</li>
+                <li>Compensation for delayed deliveries as per agreement</li>
+            </ul>
+        </div>
+
+        <div class="policy-section">
+            <h2>Privacy Policy</h2>
+            <p>Your privacy is important to us. We are committed to protecting your personal information and ensuring
+                data security.</p>
+            <ul class="policy-list">
+                <li>Secure handling of customer information</li>
+                <li>No sharing of personal data with third parties</li>
+                <li>Regular security audits and updates</li>
+                <li>Compliance with international data protection regulations</li>
+            </ul>
+        </div>
+
+        <!-- Review Section -->
+        <div class="review-section">
+            <div class="review-header">
+                <h2>Customer Reviews</h2>
+                <p>See what our customers say about our services</p>
+            </div>
+
+            <div class="rating-summary">
+                <div class="average-rating">
+                    <div class="rating-number">4.8</div>
+                    <div class="star-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <div>Based on 2,547 reviews</div>
+                </div>
+
+                <div class="rating-bars">
+                    <div class="rating-bar">
+                        <span class="rating-label">5 stars</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%"></div>
+                        </div>
+                        <span class="rating-count">2,165</span>
+                    </div>
+                    <div class="rating-bar">
+                        <span class="rating-label">4 stars</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 10%"></div>
+                        </div>
+                        <span class="rating-count">255</span>
+                    </div>
+                    <div class="rating-bar">
+                        <span class="rating-label">3 stars</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 3%"></div>
+                        </div>
+                        <span class="rating-count">76</span>
+                    </div>
+                    <div class="rating-bar">
+                        <span class="rating-label">2 stars</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 1%"></div>
+                        </div>
+                        <span class="rating-count">26</span>
+                    </div>
+                    <div class="rating-bar">
+                        <span class="rating-label">1 star</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 1%"></div>
+                        </div>
+                        <span class="rating-count">25</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <!-- Quick Links Section -->
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <div class="footer-links">
+                    <a href="../dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                    <a href="about.html"><i class="fas fa-info-circle"></i> About Us</a>
+                    <a href="contact.html"><i class="fas fa-envelope"></i> Contact Us</a>
+                    <a href="suggestions.html"><i class="fas fa-comment-alt"></i> Suggestions</a>
+                </div>
+            </div>
+
+            <!-- Services Section -->
+            <div class="footer-section">
+                <h3>Our Services</h3>
+                <div class="footer-links">
+                    <a href="services.html#express"><i class="fas fa-truck"></i> Express Delivery</a>
+                    <a href="services.html#international"><i class="fas fa-globe"></i> International Shipping</a>
+                    <a href="services.html#cargo"><i class="fas fa-box"></i> Cargo Services</a>
+                    <a href="services.html#warehouse"><i class="fas fa-warehouse"></i> Warehousing</a>
+                </div>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <div class="footer-contact">
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Shipping Street, Logistics City</p>
+                    <p><i class="fas fa-phone"></i> +1 234 567 8900</p>
+                    <p><i class="fas fa-envelope"></i> info@logitrack.com</p>
+                </div>
+                <div class="footer-social">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <!-- Newsletter Section -->
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p class="footer-contact">Subscribe to our newsletter for updates and special offers.</p>
+                <div class="footer-newsletter">
+                    <form class="newsletter-form">
+                        <input type="email" class="newsletter-input" placeholder="Enter your email">
+                        <button type="submit" class="newsletter-button">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 LogiTrack. All rights reserved. | <a href="terms.html">Terms of Service</a> | <a
+                    href="privacy.html">Privacy Policy</a></p>
+        </div>
+    </footer>
+</body>
+
+</html>

@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
             sessionStorage.setItem('isLoggedIn', 'true');
             sessionStorage.setItem('userEmail', email);
             sessionStorage.setItem('username', user.username);
+            sessionStorage.setItem('password', password);
 
             // Redirect to dashboard
             window.location.href = "dashboard.html";
@@ -108,6 +109,7 @@ document.addEventListener('DOMContentLoaded', function () {
             sessionStorage.setItem('isLoggedIn', 'true');
             sessionStorage.setItem('userEmail', email);
             sessionStorage.setItem('username', username);
+            sessionStorage.setItem('password', password);
 
             // Redirect to dashboard
             window.location.href = "dashboard.html";

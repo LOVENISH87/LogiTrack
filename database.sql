@@ -1,8 +1,8 @@
 -- Create the database
-CREATE DATABASE IF NOT EXISTS logitrack;
-USE logitrack;
+CREATE DATABASE IF NOT EXISTS logitrack_db;
+USE logitrack_db;
 
--- Create users table
+--  users table
 CREATE TABLE IF NOT EXISTS users (
     id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL UNIQUE,
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create addresses table
+--  addresses table
 CREATE TABLE IF NOT EXISTS addresses (
     id INT PRIMARY KEY AUTO_INCREMENT,
     customer_name VARCHAR(100) NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS addresses (
     phone_number VARCHAR(20) NOT NULL
 );
 
--- Create products table
+-- products table
 CREATE TABLE IF NOT EXISTS products (
     product_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS products (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create orders table
+-- orders table
 CREATE TABLE IF NOT EXISTS orders (
     id INT PRIMARY KEY AUTO_INCREMENT,
     order_id VARCHAR(50) NOT NULL UNIQUE,
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS orders (
     FOREIGN KEY (shipping_address_id) REFERENCES addresses(id)
 );
 
--- Create order_items table
+-- order_items table
 CREATE TABLE IF NOT EXISTS order_items (
     order_item_id INT AUTO_INCREMENT PRIMARY KEY,
     order_id INT,
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS order_items (
     FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
 );
 
--- Create shipments table
+-- shipments table
 CREATE TABLE IF NOT EXISTS shipments (
     id INT PRIMARY KEY AUTO_INCREMENT,
     order_id INT,
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS shipments (
     FOREIGN KEY (order_id) REFERENCES orders(id)
 );
 
--- Create shipment_tracking table
+-- shipment_tracking table
 CREATE TABLE IF NOT EXISTS shipment_tracking (
     tracking_id INT AUTO_INCREMENT PRIMARY KEY,
     shipment_id INT,

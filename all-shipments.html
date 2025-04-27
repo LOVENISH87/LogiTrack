@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogiTrack - All Shipments</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="shared-data.js"></script>
+    <style>
+        .shipments-container {
+            width: 100%;
+            margin: 0;
+            padding: 2rem;
+            box-sizing: border-box;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .shipments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #ddd;
+            width: 100%;
+        }
+
+        .back-btn {
+            background-color: #000;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            background-color: #333;
+        }
+
+        .shipments-content {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .shipments-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #000;
+        }
+
+        .shipments-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 12px;
+            margin-top: 1rem;
+        }
+
+        .shipments-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+            padding: 1.2rem;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .shipments-table td {
+            padding: 1.2rem;
+            background-color: white;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .shipments-table tr {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .shipments-table tr:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .shipments-table tr td:first-child {
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+        }
+
+        .shipments-table tr td:last-child {
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        .shipment-id {
+            font-weight: 600;
+            color: #2196F3;
+            font-size: 1.1rem;
+        }
+
+        .shipment-type {
+            color: #666;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .shipment-status {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-transform: capitalize;
+        }
+
+        .status-processing {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+
+        .status-delivered {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-returned {
+            background-color: #ffe0e0;
+            color: #d9534f;
+            border: 1px solid #f5b9b7;
+        }
+
+        .shipment-date {
+            color: #666;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .no-shipments {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        .dark-mode-switch {
+            margin-right: 25px;
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-toggle-btn {
+            background: #f0f0f0;
+            color: #333;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #ddd;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-toggle-btn:hover {
+            background: #e0e0e0;
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background: #ffffff;
+            color: #333;
+        }
+
+        body.dark-mode .shipments-content {
+            background-color: #f0f8ff;
+            box-shadow: 0 5px 15px rgba(0, 150, 255, 0.2);
+        }
+
+        body.dark-mode .shipments-title {
+            color: #0066cc;
+        }
+
+        body.dark-mode .shipments-table th {
+            background-color: #1a73e8;
+            color: white;
+            border-bottom: none;
+        }
+
+        body.dark-mode .shipments-table td {
+            background-color: #f8f9fa;
+        }
+
+        body.dark-mode .shipments-table tr:hover {
+            background-color: #e6f7ff;
+        }
+
+        body.dark-mode .shipment-id {
+            color: #1a73e8;
+        }
+
+        body.dark-mode .shipment-type {
+            color: #555;
+        }
+
+        body.dark-mode .shipment-date {
+            color: #555;
+        }
+
+        body.dark-mode .no-shipments {
+            color: #555;
+        }
+
+        body.dark-mode .theme-toggle-btn {
+            background: #87CEEB;
+            color: #333;
+            border-color: #5FB6E1;
+        }
+
+        body.dark-mode .theme-toggle-btn:hover {
+            background: #5FB6E1;
+        }
+
+        body.dark-mode .back-btn {
+            background-color: #87CEEB;
+            color: #333;
+            border: 1px solid #5FB6E1;
+        }
+
+        body.dark-mode .back-btn:hover {
+            background-color: #5FB6E1;
+        }
+
+        body.dark-mode .shipments-header {
+            border-bottom: 1px solid #5FB6E1;
+        }
+
+        body.dark-mode .shipments-header h1 {
+            color: #0066cc;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+            gap: 0.5rem;
+        }
+
+        .pagination-btn {
+            padding: 0.5rem 1rem;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .pagination-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        .pagination-btn.active {
+            background-color: #000;
+            color: white;
+            border-color: #000;
+        }
+
+        body.dark-mode .pagination-btn {
+            background-color: #e6f7ff;
+            border-color: #b3e0ff;
+            color: #333;
+        }
+
+        body.dark-mode .pagination-btn:hover {
+            background-color: #b3e0ff;
+        }
+
+        body.dark-mode .pagination-btn.active {
+            background-color: #87CEEB;
+            color: #333;
+            border-color: #5FB6E1;
+        }
+
+        body.dark-mode footer {
+            background-color: #f0f8ff;
+            border-top: 1px solid #b3e0ff;
+        }
+
+        body.dark-mode .footer-content {
+            color: #333;
+        }
+
+        body.dark-mode .footer-links a {
+            color: #0066cc;
+        }
+
+        body.dark-mode .footer-links a:hover {
+            color: #0099ff;
+        }
+
+        body.dark-mode .status-processing {
+            background-color: #ffe8cc;
+            color: #ff8c00;
+            border: 1px solid #ffcc80;
+        }
+
+        body.dark-mode .status-delivered {
+            background-color: #d4f8e8;
+            color: #00a86b;
+            border: 1px solid #a3e9c7;
+        }
+
+        body.dark-mode .status-returned {
+            background-color: #ffe0e0;
+            color: #d9534f;
+            border: 1px solid #f5b9b7;
+        }
+
+        /* Add icons to headers */
+        .header-icon {
+            margin-right: 8px;
+            opacity: 0.7;
+        }
+
+        /* Add sorting indicators */
+        .sort-indicator {
+            margin-left: 5px;
+            font-size: 0.8rem;
+            opacity: 0.5;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .shipments-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .shipments-container {
+                padding: 1rem;
+            }
+
+            .shipments-content {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="theme-default dark-mode">
+    <div class="shipments-container">
+        <div class="shipments-header">
+            <h1 class="shipments-title">All Shipments</h1>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <div class="dark-mode-switch">
+                    <button class="theme-toggle-btn" id="themeToggleBtn">
+                        <i class="fas fa-moon" id="modeIcon"></i>
+                        <span id="themeText">Dark Mode</span>
+                    </button>
+                </div>
+                <a href="dashboard.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </a>
+            </div>
+        </div>
+
+        <div class="shipments-content">
+            <table class="shipments-table">
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-hashtag header-icon"></i>ID<i class="fas fa-sort sort-indicator"></i></th>
+                        <th><i class="fas fa-box header-icon"></i>Type<i class="fas fa-sort sort-indicator"></i></th>
+                        <th><i class="fas fa-info-circle header-icon"></i>Status<i
+                                class="fas fa-sort sort-indicator"></i></th>
+                        <th><i class="far fa-calendar-alt header-icon"></i>Date<i
+                                class="fas fa-sort sort-indicator"></i></th>
+                    </tr>
+                </thead>
+                <tbody id="shipments-list">
+                    <!-- Shipments will be dynamically added here -->
+                </tbody>
+            </table>
+            <div id="no-shipments" class="no-shipments" style="display: none;">
+                <i class="fas fa-box-open" style="font-size: 3rem; margin-bottom: 1rem; color: #ccc;"></i>
+                <p>No shipments found</p>
+            </div>
+            <div class="pagination" id="pagination">
+                <!-- Pagination will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="pages/contact.html">Contact Us</a>
+                <a href="pages/about.html">About Us</a>
+                <a href="pages/policies.html">Policies</a>
+                <a href="pages/suggestions.html">Suggestions</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 LogiTrack. All rights reserved. | <a href="pages/terms.html">Terms of Service</a> | <a
+                        href="pages/privacy.html">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const shipmentsList = document.getElementById('shipments-list');
+            const noShipments = document.getElementById('no-shipments');
+            const currentUser = sessionStorage.getItem('userEmail');
+
+            if (!currentUser) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Get shipments from both storages
+            const sessionHistory = JSON.parse(sessionStorage.getItem('currentSessionHistory') || '[]');
+            const globalHistory = JSON.parse(localStorage.getItem('searchHistory') || '[]');
+
+            // Combine and sort all shipments
+            const allShipments = [...sessionHistory, ...globalHistory]
+                .filter(item => item.userEmail === currentUser)
+                .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+            if (allShipments.length === 0) {
+                noShipments.style.display = 'block';
+                return;
+            }
+
+            // Display shipments
+            allShipments.forEach(shipment => {
+                const row = document.createElement('tr');
+                const date = new Date(shipment.timestamp);
+                const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+
+                row.innerHTML = `
+                    <td>
+                        <span class="shipment-id">${shipment.searchValue}</span>
+                    </td>
+                    <td>
+                        <span class="shipment-type">
+                            <i class="fas ${shipment.searchType === 'order' ? 'fa-shopping-cart' : 'fa-truck'}"></i>
+                            ${shipment.searchType.charAt(0).toUpperCase() + shipment.searchType.slice(1)}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="shipment-status status-${shipment.status.toLowerCase()}">
+                            <i class="fas ${shipment.status.toLowerCase() === 'processing' ? 'fa-clock' : 'fa-check-circle'}"></i>
+                            ${shipment.status}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="shipment-date">
+                            <i class="far fa-calendar-alt"></i>
+                            ${formattedDate}
+                        </span>
+                    </td>
+                `;
+
+                row.onclick = () => {
+                    window.location.href = `shipment-details.html?id=${shipment.searchValue}&type=${shipment.searchType}`;
+                };
+
+                shipmentsList.appendChild(row);
+            });
+
+            // Theme toggle functionality
+            const themeToggleBtn = document.getElementById('themeToggleBtn');
+            const themeText = document.getElementById('themeText');
+            const modeIcon = document.getElementById('modeIcon');
+
+            // Check if dark mode is already active
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.body.classList.add('dark-mode');
+                themeText.textContent = 'Dark Mode';
+                modeIcon.classList.remove('fa-sun');
+                modeIcon.classList.add('fa-moon');
+            }
+
+            // Toggle theme when button is clicked
+            themeToggleBtn.addEventListener('click', function () {
+                document.body.classList.toggle('dark-mode');
+                const isDarkMode = document.body.classList.contains('dark-mode');
+                localStorage.setItem('darkMode', isDarkMode);
+
+                if (isDarkMode) {
+                    themeText.textContent = 'Dark Mode';
+                    modeIcon.classList.remove('fa-sun');
+                    modeIcon.classList.add('fa-moon');
+                } else {
+                    themeText.textContent = 'Light Mode';
+                    modeIcon.classList.remove('fa-moon');
+                    modeIcon.classList.add('fa-sun');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

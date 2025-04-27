@@ -1,36 +1,17 @@
 <?php
-require_once 'config.php';
+include 'db_connect.php';
 
 if (isset($_GET['token'])) {
     $token = $_GET['token'];
 
-    // Prepare a select statement
-    $stmt = $conn->prepare("SELECT id FROM users WHERE verification_token = ?");
+    $sql = "UPDATE users SET is_verified = 1 WHERE verification_token = ?";
+    $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $token);
-    $stmt->execute();
-    $result = $stmt->get_result();
 
-    if ($result->num_rows == 1) {
-        $user = $result->fetch_assoc();
-
-        // Update user to remove verification token
-        $update_stmt = $conn->prepare("UPDATE users SET verification_token = NULL WHERE id = ?");
-        $update_stmt->bind_param("i", $user['id']);
-
-        if ($update_stmt->execute()) {
-            echo "Email verification successful! You can now <a href='index.html'>login</a> to your account.";
-        } else {
-            echo "Error verifying email. Please try again later.";
-        }
-
-        $update_stmt->close();
+    if ($stmt->execute() && $stmt->affected_rows > 0) {
+        echo "Email verified successfully!";
     } else {
-        echo "Invalid verification token.";
+        echo "Invalid or already used token.";
     }
-
     $stmt->close();
-} else {
-    echo "No verification token provided.";
 }
-
-$conn->close();

@@ -8,7 +8,7 @@
 }
 
 body {
-    background: #f6f5f7;
+    background: linear-gradient(135deg, #ff00cc, #3333ff);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -16,19 +16,23 @@ body {
 
 /* Navbar Styles */
 .navbar {
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     padding: 1rem 2rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .nav-brand a {
-    color: #333;
+    color: #f5ff00;
     text-decoration: none;
     font-size: 1.5rem;
     font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .nav-menu {
@@ -48,7 +52,7 @@ body {
     cursor: pointer;
     padding: 0.5rem 1rem;
     font-size: 1rem;
-    color: #333;
+    color: #f5ff00;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -58,22 +62,27 @@ body {
     display: none;
     position: absolute;
     right: 0;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     min-width: 160px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
     z-index: 1;
+    border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .dropdown-content a {
-    color: #333;
+    color: #f5ff00;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
 }
 
 .dropdown-content a:hover {
-    background-color: #f6f5f7;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    margin: 0 5px;
 }
 
 .dropdown:hover .dropdown-content {
@@ -103,9 +112,13 @@ body {
 .search-container select,
 .search-container input {
     padding: 0.8rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 10px;
     font-size: 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    color: #f5ff00;
 }
 
 .search-container select {
@@ -118,30 +131,37 @@ body {
 
 .search-container button {
     padding: 0.8rem 1.5rem;
-    background-color: #5995fd;
+    background: linear-gradient(45deg, #00e676, #00c853);
     color: #fff;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     cursor: pointer;
     font-weight: 500;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .search-container button:hover {
-    background-color: #4d84e2;
+    background: linear-gradient(45deg, #00c853, #00e676);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* Shipments Section Styles */
 .shipments-section {
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .shipments-section h2 {
     margin-bottom: 1.5rem;
-    color: #333;
+    color: #f5ff00;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Modal Styles */
@@ -157,12 +177,16 @@ body {
 }
 
 .modal-content {
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     margin: 15% auto;
     padding: 2rem;
-    border-radius: 8px;
+    border-radius: 20px;
     max-width: 400px;
     position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .close {
@@ -171,12 +195,13 @@ body {
     top: 1rem;
     font-size: 1.5rem;
     cursor: pointer;
-    color: #666;
+    color: #f5ff00;
 }
 
 .modal h2 {
     margin-bottom: 1.5rem;
-    color: #333;
+    color: #f5ff00;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .modal form {
@@ -187,24 +212,30 @@ body {
 
 .modal input {
     padding: 0.8rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 10px;
     font-size: 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    color: #f5ff00;
 }
 
 .modal button {
     padding: 0.8rem;
-    background-color: #5995fd;
+    background: linear-gradient(45deg, #00e676, #00c853);
     color: #fff;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .modal button:hover {
-    background-color: #4d84e2;
+    background: linear-gradient(45deg, #00c853, #00e676);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* Spinner Styles */

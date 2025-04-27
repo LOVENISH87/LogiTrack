@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - LogiTrack</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Previous styles remain the same */
+
+        .back-to-dashboard {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: linear-gradient(135deg, #007bff, #00ff88);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-to-dashboard:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #0069d9, #00cc77);
+        }
+
+        .back-to-dashboard i {
+            font-size: 1.1em;
+        }
+
+        /* Dark mode styles for back button */
+        body.dark-mode .back-to-dashboard {
+            background: linear-gradient(135deg, #0056b3, #00b366);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        body.dark-mode .back-to-dashboard:hover {
+            background: linear-gradient(135deg, #004494, #00994d);
+        }
+    </style>
+</head>
+
+<body>
+    <a href="../dashboard.html" class="back-to-dashboard">
+        <i class="fas fa-arrow-left"></i>
+        Back to Dashboard
+    </a>
+
+    <div class="about-container">
+        <!-- Rest of the content remains the same -->
+    </div>
+
+    <!-- Footer section remains the same -->
+</body>
+
+</html>

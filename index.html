@@ -10,25 +10,27 @@
 </head>
 
 <body>
+
     <div class="container">
         <div class="forms-container">
             <!-- Initial Welcome Screen -->
             <div class="welcome-screen" id="welcome-screen">
-                <h2 class="title">Welcome to LogiTrack</h2>
+                <h1 class="title"> LogiTrack</h1>
                 <p class="welcome-text">Choose an option to continue</p>
                 <div class="welcome-buttons">
                     <button class="btn solid" id="show-signin-btn">Sign In</button>
+
                     <button class="btn solid" id="show-signup-btn">Sign Up</button>
                 </div>
             </div>
 
             <div class="signin-signup">
                 <!-- Login Form -->
-                <form class="sign-in-form" style="display: none;">
+                <form action="php/login.php" method="POST" class="sign-in-form" style="display: none;">
                     <h2 class="title">Sign In</h2>
                     <div class="input-field">
                         <i class="fas fa-envelope"></i>
-                        <input type="email" name="login" placeholder="Email" required />
+                        <input type="email" name="email" placeholder="Email" required />
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
@@ -39,7 +41,7 @@
                 </form>
                 <!-- Registration Form -->
 
-                <form class="sign-up-form" style="display: none;">
+                <form action="php/register.php" method="POST" class="sign-up-form" style="display: none;">
                     <h2 class="title">Sign Up</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
@@ -48,6 +50,10 @@
                     <div class="input-field">
                         <i class="fas fa-envelope"></i>
                         <input type="email" name="email" placeholder="Email" required />
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-phone"></i>
+                        <input type="tel" name="phone" placeholder="Phone Number" required />
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
@@ -73,6 +79,7 @@
             </div>
         </div>
     </footer>
+
 
     <script src="js/app.js"></script>
 </body>

@@ -5,15 +5,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shipment Details - LogiTrack</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="shared-data.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        .shipment-details-container {
-            max-width: 800px;
+        :root {
+            --primary-color: #4a90e2;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --text-color: #333;
+            --bg-color: #fff;
+            --card-bg: #f8f9fa;
+            --border-color: #dee2e6;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --text-color: #e1e1e1;
+            --bg-color: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --border-color: #404040;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .header {
+            background-color: var(--card-bg);
+            padding: 1rem;
+            box-shadow: 0 2px 4px var(--shadow-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            margin: 0;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .header .left-buttons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #357abd;
+        }
+
+        .details-container {
+            width: 100%;
+            max-width: 100%;
             margin: 2rem auto;
-            padding: 2rem;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 0 2rem;
         }
 
         .shipment-header {
@@ -21,147 +104,931 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #eee;
+            width: 100%;
+            padding: 0 1rem;
         }
 
-        .order-id {
+        .shipment-id {
             font-size: 1.2rem;
-            color: #666;
+            color: var(--text-color);
         }
 
-        .info-section {
+        .status-badge {
+            padding: 0.5rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-processing {
+            background-color: var(--warning-color);
+            color: #000;
+        }
+
+        .status-delivered {
+            background-color: var(--success-color);
+            color: #fff;
+        }
+
+        .status-canceled,
+        .status-returned {
+            background-color: var(--danger-color);
+            color: #fff;
+        }
+
+        .status-cards {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 2rem;
+            width: 100%;
+            padding: 0 1rem;
+            gap: 1rem;
         }
 
-        .info-section h3 {
-            color: #333;
-            margin-bottom: 1rem;
-        }
-
-        .shipment-item {
-            padding: 1rem;
-            background: #f9f9f9;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-        }
-
-        .status {
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.9rem;
-        }
-
-        .status.processing {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .status.delivered {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .back-button {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-        }
-
-        .back-button:hover {
-            background: #0056b3;
-        }
-
-        .error-message {
-            color: #dc3545;
-            text-align: center;
+        .status-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
             padding: 2rem;
+            box-shadow: 0 2px 4px var(--shadow-color);
+            text-align: center;
+            width: 100%;
+            min-width: 200px;
+        }
+
+        .status-card h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .status-card span {
+            font-weight: 500;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+            width: 100%;
+            padding: 0 1rem;
+        }
+
+        .info-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 4px var(--shadow-color);
+            width: 100%;
+            min-width: 400px;
+        }
+
+        .info-card h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .info-item {
+            margin-bottom: 1rem;
+        }
+
+        .info-item label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            opacity: 0.8;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-item span {
+            font-weight: 500;
+        }
+
+        .timeline {
+            margin-top: 3rem;
+            position: relative;
+            padding: 2rem;
+            width: calc(100% - 20px);
+            margin-left: 10px;
+            margin-right: 10px;
+            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(255, 255, 255, 0.1) 100%);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            pointer-events: none;
+        }
+
+        .timeline h3 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            padding-left: 0;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            pointer-events: none;
+            text-align: center;
+        }
+
+        /* Removing the green dot styles */
+        .timeline h3::before {
+            display: none;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 3.5rem;
+            width: 4px;
+            background: linear-gradient(to bottom,
+                    var(--primary-color) 0%,
+                    #4a90e2 50%,
+                    var(--primary-color) 100%);
+            border-radius: 4px;
+            box-shadow:
+                0 0 10px rgba(74, 144, 226, 0.5),
+                0 0 20px rgba(74, 144, 226, 0.3);
+            animation: lineGlow 2s infinite alternate;
+        }
+
+        @keyframes lineGlow {
+            0% {
+                box-shadow:
+                    0 0 10px rgba(74, 144, 226, 0.5),
+                    0 0 20px rgba(74, 144, 226, 0.3);
+            }
+
+            100% {
+                box-shadow:
+                    0 0 15px rgba(74, 144, 226, 0.7),
+                    0 0 25px rgba(74, 144, 226, 0.5);
+            }
+        }
+
+        /* Processing status line */
+        .timeline.processing::before {
+            background: linear-gradient(to bottom,
+                    #ffc107 0%,
+                    #ff9800 50%,
+                    #ffc107 100%);
+            box-shadow:
+                0 0 10px rgba(255, 193, 7, 0.5),
+                0 0 20px rgba(255, 193, 7, 0.3);
+            animation: processingLineGlow 2s infinite alternate;
+        }
+
+        @keyframes processingLineGlow {
+            0% {
+                box-shadow:
+                    0 0 10px rgba(255, 193, 7, 0.5),
+                    0 0 20px rgba(255, 193, 7, 0.3);
+            }
+
+            100% {
+                box-shadow:
+                    0 0 15px rgba(255, 193, 7, 0.7),
+                    0 0 25px rgba(255, 193, 7, 0.5);
+            }
+        }
+
+        /* Delivered status line */
+        .timeline.delivered::before {
+            background: linear-gradient(to bottom,
+                    #4caf50 0%,
+                    #2e7d32 50%,
+                    #4caf50 100%);
+            box-shadow:
+                0 0 10px rgba(76, 175, 80, 0.5),
+                0 0 20px rgba(76, 175, 80, 0.3);
+        }
+
+        /* Canceled/Returned status line */
+        .timeline.canceled::before,
+        .timeline.returned::before {
+            background: linear-gradient(to bottom,
+                    #dc3545 0%,
+                    #c82333 50%,
+                    #dc3545 100%);
+            box-shadow:
+                0 0 10px rgba(220, 53, 69, 0.5),
+                0 0 20px rgba(220, 53, 69, 0.3);
+            animation: errorLineGlow 2s infinite alternate;
+        }
+
+        @keyframes errorLineGlow {
+            0% {
+                box-shadow:
+                    0 0 10px rgba(220, 53, 69, 0.5),
+                    0 0 20px rgba(220, 53, 69, 0.3);
+            }
+
+            100% {
+                box-shadow:
+                    0 0 15px rgba(220, 53, 69, 0.7),
+                    0 0 25px rgba(220, 53, 69, 0.5);
+            }
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+            width: 100%;
+            opacity: 0;
+            transform: translateX(30px);
+            animation: slideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            pointer-events: none;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0) rotateY(0);
+            }
+        }
+
+        .timeline-item:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .timeline-item:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .timeline-item:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .timeline-item:nth-child(4) {
+            animation-delay: 0.8s;
+        }
+
+        .timeline-icon {
+            width: 3.5rem;
+            height: 3.5rem;
+            background: linear-gradient(135deg, var(--primary-color), #4a90e2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 1.5rem;
+            z-index: 2;
+            box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.2), 0 0 20px rgba(74, 144, 226, 0.3);
+            position: relative;
+            pointer-events: none;
+        }
+
+        /* Processing status icon */
+        .timeline.processing .timeline-icon {
+            background: linear-gradient(135deg, #ffc107, #ff9800);
+            box-shadow: 0 0 0 4px rgba(255, 193, 7, 0.2), 0 0 20px rgba(255, 193, 7, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        /* Delivered status icon */
+        .timeline.delivered .timeline-icon {
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.2), 0 0 20px rgba(76, 175, 80, 0.3);
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border-radius: 12px;
+            padding: 1.8rem;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            width: 100%;
+            min-width: 500px;
+            border-left: 4px solid var(--primary-color);
+            position: relative;
+            pointer-events: none;
+        }
+
+        /* Processing status content */
+        .timeline.processing .timeline-content {
+            border-left: 4px solid #ffc107;
+            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(255, 193, 7, 0.05) 100%);
+        }
+
+        /* Delivered status content */
+        .timeline.delivered .timeline-content {
+            border-left: 4px solid #4caf50;
+            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(76, 175, 80, 0.05) 100%);
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 25px var(--shadow-color);
+        }
+
+        .timeline-content:hover::before {
+            transform: translateX(100%);
+        }
+
+        .timeline-content h4 {
+            margin: 0 0 0.8rem 0;
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .timeline-content p {
+            margin: 0 0 0.8rem 0;
+            color: var(--text-color);
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        .timeline-date {
+            font-size: 0.95rem;
+            color: var(--text-color);
+            opacity: 0.8;
+            display: block;
+            margin-top: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .shipment-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Account dropdown styles */
+        .account-container {
+            position: relative;
+            display: inline-block;
+            margin-left: 1rem;
+        }
+
+        .account-btn {
+            background: linear-gradient(45deg, #673ab7, #3f51b5);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(103, 58, 183, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .account-btn:hover {
+            background: linear-gradient(45deg, #3f51b5, #673ab7);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(103, 58, 183, 0.6);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            z-index: 100;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #eee;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f5f5f5;
+        }
+
+        .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-content a.logout-option {
+            color: #ff4444;
+            border-top: 1px solid #eee;
+        }
+
+        .dropdown-content a.logout-option:hover {
+            background-color: #ffe5e5;
+        }
+
+        body.dark-mode .dropdown-content {
+            background-color: #383838;
+            border: 1px solid #444;
+        }
+
+        body.dark-mode .dropdown-content a {
+            color: #fff;
+        }
+
+        body.dark-mode .dropdown-content a:hover {
+            background-color: #454545;
+        }
+
+        body.dark-mode .dropdown-content a.logout-option {
+            color: #ff6b6b;
+            border-top: 1px solid #444;
+        }
+
+        body.dark-mode .dropdown-content a.logout-option:hover {
+            background-color: #4a3434;
+        }
+
+        .show {
+            display: block;
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            --text-color: #e1e1e1;
+            --bg-color: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --border-color: #404040;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Dark mode specific styles */
+        body.dark-mode .timeline {
+            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(45, 45, 45, 0.1) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        body.dark-mode .timeline-content {
+            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(45, 45, 45, 0.1) 100%);
+            border-left: 4px solid #4a90e2;
+        }
+
+        body.dark-mode .timeline-content:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        body.dark-mode .timeline-content::before {
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.02), transparent);
+        }
+
+        /* Status indicator */
+        .status-indicator {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            pointer-events: none;
+        }
+
+        .processing .status-indicator {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+            animation: blink 1.5s infinite;
+        }
+
+        .delivered .status-indicator {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+        }
+
+        .canceled .status-indicator,
+        .returned .status-indicator {
+            background: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+        }
+
+        /* Timeline status colors */
+        .timeline.canceled .timeline-content {
+            border-left: 4px solid #dc3545;
+            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(220, 53, 69, 0.05) 100%);
+        }
+
+        .timeline.returned .timeline-content {
+            border-left: 4px solid #dc3545;
+            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(220, 53, 69, 0.05) 100%);
+        }
+
+        .timeline.canceled .timeline-icon,
+        .timeline.returned .timeline-icon {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.2), 0 0 20px rgba(220, 53, 69, 0.3);
+        }
+
+        /* Dark mode adjustments for canceled/returned status */
+        body.dark-mode .timeline.canceled .timeline-content,
+        body.dark-mode .timeline.returned .timeline-content {
+            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(220, 53, 69, 0.1) 100%);
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Dark mode adjustments */
+        body.dark-mode .timeline.processing .timeline-content {
+            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(255, 193, 7, 0.1) 100%);
+        }
+
+        body.dark-mode .timeline.delivered .timeline-content {
+            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(76, 175, 80, 0.1) 100%);
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <a href="dashboard.html" class="back-button">← Back to Dashboard</a>
-        <div id="shipment-details-container" class="shipment-details-container">
-            <!-- Shipment details will be populated here -->
+    <header class="header">
+        <div class="left-buttons">
+            <button class="btn btn-primary" onclick="window.location.href='dashboard.html'">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </button>
+        </div>
+        <h1>Shipment Details</h1>
+        <div style="display: flex; align-items: center;">
+            <button class="btn btn-primary" id="themeToggleBtn" onclick="toggleDarkMode()">
+                <i class="fas fa-moon"></i> Dark Mode
+            </button>
+            <div class="account-container">
+                <div class="account-btn" id="account-btn">
+                    <i class="fas fa-user"></i> Account
+                </div>
+                <div class="dropdown-content" id="accountDropdown">
+                    <a href="#" onclick="window.location.href='dashboard.html'">Dashboard</a>
+                    <a href="#" onclick="window.location.href='history.html'">History</a>
+                    <a href="#" onclick="logout()" class="logout-option">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="details-container">
+        <div class="shipment-header">
+            <div class="shipment-id">
+                <strong>Shipment ID:</strong> <span id="shipmentId">Loading...</span>
+                <div><small>Type: <span id="shipmentType">Loading...</span></small></div>
+            </div>
+            <div class="status-badge" id="statusBadge">Loading...</div>
+        </div>
+
+        <div class="status-cards">
+            <div class="status-card">
+                <h3>Processing</h3>
+                <span id="processingCount">0</span>
+            </div>
+            <div class="status-card">
+                <h3>Return</h3>
+                <span id="returnCount">0</span>
+            </div>
+            <div class="status-card">
+                <h3>Delivered</h3>
+                <span id="deliveredCount">0</span>
+            </div>
+            <div class="status-card">
+                <h3>Total Orders</h3>
+                <span id="totalCount">0</span>
+            </div>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>Shipment Information</h3>
+                <div class="info-item">
+                    <label>Origin</label>
+                    <span id="origin">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <label>Destination</label>
+                    <span id="destination">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <label>Estimated Delivery</label>
+                    <span id="estimatedDelivery">Loading...</span>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3>Status Updates</h3>
+                <div class="info-item">
+                    <label>Current Status</label>
+                    <span id="currentStatus">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <label>Last Updated</label>
+                    <span id="lastUpdate">Loading...</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline">
+            <h3>Timeline</h3>
+            <div id="timelineContainer"></div>
         </div>
     </div>
 
-    <script src="shared-data.js"></script>
     <script>
-        // Get URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const searchId = urlParams.get('id');
-        const searchType = urlParams.get('type');
-
-        // Get shipment details from shared data
-        const shipmentDetails = LogiTrackShared.getShipmentDetails(searchId, searchType);
-
-        // Display shipment details
-        function displayShipmentDetails() {
-            const container = document.getElementById('shipment-details-container');
-
-            if (!shipmentDetails) {
-                container.innerHTML = '<div class="error-message">No shipment details found</div>';
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if user is logged in
+            const userEmail = sessionStorage.getItem('userEmail');
+            if (!userEmail) {
+                window.location.href = 'index.html';
                 return;
             }
 
-            // Format order date
-            const orderDate = new Date(shipmentDetails.order_date);
-            const formattedDate = orderDate.toLocaleDateString('en-US', {
-                weekday: 'short',
-                day: 'numeric',
-                month: 'short',
-                year: 'numeric'
-            });
+            // Get shipment details from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchId = urlParams.get('id');
+            const searchType = urlParams.get('type');
 
-            // Generate HTML content
-            const html = `
-            <div class="shipment-header">
-                <h2>Order Details</h2>
-                <div class="order-id">Order ID: ${searchId}</div>
-            </div>
-            
-            <div class="shipment-info">
-                <div class="info-section">
-                    <h3>Order Summary</h3>
-                    <p>Order Date: ${formattedDate}</p>
-                    <p>Total Amount: ₹${shipmentDetails.total_amount.toFixed(2)}</p>
-                </div>
-                
-                <div class="info-section">
-                    <h3>Shipping Address</h3>
-                    <p>${shipmentDetails.customer.name}</p>
-                    <p>${shipmentDetails.customer.address}</p>
-                    <p>${shipmentDetails.customer.city}, ${shipmentDetails.customer.state} ${shipmentDetails.customer.postal_code}</p>
-                    <p>Phone: ${shipmentDetails.customer.phone}</p>
-                </div>
-                
-                <div class="info-section">
-                    <h3>Shipment List</h3>
-                    ${shipmentDetails.shipments.map(shipment => `
-                        <div class="shipment-item">
-                            <p>Shipment ${shipment.number} of ${shipment.total_shipments}</p>
-                            <p>Tracking ID: ${shipment.tracking_id}</p>
-                            <p>Amount: ₹${shipment.amount.toFixed(2)}</p>
-                            <p>Items: ${shipment.items_count}</p>
-                            <p>Status: <span class="status ${shipment.status}">${shipment.status}</span></p>
-                        </div>
-                    `).join('')}
-                </div>
-            </div>
-        `;
+            if (!searchId || !searchType) {
+                window.location.href = 'dashboard.html';
+                return;
+            }
 
-            container.innerHTML = html;
+            // Check if the LogiTrackShared object is available
+            if (!window.LogiTrackShared || typeof window.LogiTrackShared.getShipmentDetails !== 'function') {
+                console.error('Shared data functions not available');
+                alert('Error: Unable to load shipment data. Please try again later.');
+                return;
+            }
+
+            // Get shipment details using the shared function
+            const shipmentDetails = window.LogiTrackShared.getShipmentDetails(searchId, searchType);
+            displayShipmentDetails(shipmentDetails, searchType);
+
+            // Update status counts
+            updateStatusCounts(shipmentDetails.status);
+
+            // Set the theme based on user preference
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeToggleBtn').innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+            }
+        });
+
+        function updateStatusCounts(status) {
+            let processing = 0;
+            let delivered = 0;
+            let returned = 0;
+
+            if (status.toLowerCase() === 'processing') {
+                processing = 1;
+            } else if (status.toLowerCase() === 'delivered') {
+                delivered = 1;
+            } else if (status.toLowerCase() === 'returned' || status.toLowerCase() === 'return') {
+                returned = 1;
+            }
+
+            // Update the status cards
+            document.getElementById('processingCount').textContent = processing;
+            document.getElementById('deliveredCount').textContent = delivered;
+            document.getElementById('returnCount').textContent = returned;
+            document.getElementById('totalCount').textContent = '1';
         }
 
-        // Call display function when page loads
-        document.addEventListener('DOMContentLoaded', displayShipmentDetails);
+        function displayShipmentDetails(shipment, searchType) {
+            try {
+                // Update status badge
+                const statusBadge = document.getElementById('statusBadge');
+                const status = shipment.status ? shipment.status.toLowerCase() : 'processing';
+                statusBadge.innerHTML = `<span class="status-badge status-${status}">${shipment.status || 'Processing'}</span>`;
+
+                // Update shipment information
+                document.getElementById('shipmentId').textContent = (shipment.shipments && shipment.shipments[0] && shipment.shipments[0].tracking_id) || 'N/A';
+                document.getElementById('shipmentType').textContent = searchType ? searchType.charAt(0).toUpperCase() + searchType.slice(1) : 'Order';
+
+                // Check if properties exist before accessing them
+                const shipmentItem = shipment.shipments && shipment.shipments[0] ? shipment.shipments[0] : {};
+                document.getElementById('origin').textContent = shipmentItem.origin || 'N/A';
+                document.getElementById('destination').textContent = shipmentItem.destination || 'N/A';
+                document.getElementById('estimatedDelivery').textContent = formatDate(shipmentItem.estimated_delivery);
+                document.getElementById('currentStatus').textContent = shipment.status || 'Processing';
+                document.getElementById('lastUpdate').textContent = formatDate(shipmentItem.last_updated);
+
+                // Update timeline
+                updateTimeline(shipment);
+            } catch (error) {
+                console.error('Error displaying shipment details:', error);
+                alert('There was an error displaying the shipment details. Please try again later.');
+            }
+        }
+
+        function updateTimeline(shipment) {
+            const timelineContainer = document.getElementById('timelineContainer');
+            const timeline = document.querySelector('.timeline');
+            timelineContainer.innerHTML = '';
+
+            // Add status class to timeline
+            const status = shipment.status ? shipment.status.toLowerCase() : 'processing';
+            timeline.className = 'timeline ' + status;
+
+            // Create a complete timeline with multiple steps
+            const timelineEvents = [
+                {
+                    status: 'Order Placed',
+                    date: new Date(shipment.order_date || new Date().toISOString()),
+                    location: shipment.shipments && shipment.shipments[0] ? shipment.shipments[0].origin || 'Origin' : 'Origin',
+                    icon: 'fa-box'
+                },
+                {
+                    status: 'Processing',
+                    date: new Date(new Date(shipment.order_date || new Date().toISOString()).getTime() + 24 * 60 * 60 * 1000),
+                    location: shipment.shipments && shipment.shipments[0] ? shipment.shipments[0].origin || 'Origin' : 'Origin',
+                    icon: 'fa-cog'
+                },
+                {
+                    status: 'In Transit',
+                    date: new Date(new Date(shipment.order_date || new Date().toISOString()).getTime() + 3 * 24 * 60 * 60 * 1000),
+                    location: 'Distribution Center',
+                    icon: 'fa-truck'
+                }
+            ];
+
+            // Add current status if not already in the timeline
+            const currentStatus = shipment.status || 'Processing';
+            if (!['Order Placed', 'Processing', 'In Transit'].includes(currentStatus)) {
+                timelineEvents.push({
+                    status: currentStatus,
+                    date: new Date(),
+                    location: shipment.shipments && shipment.shipments[0] ? shipment.shipments[0].destination || 'Destination' : 'Destination',
+                    icon: currentStatus.toLowerCase() === 'delivered' ? 'fa-check-circle' : 'fa-info-circle'
+                });
+            }
+
+            // Sort by date
+            timelineEvents.sort((a, b) => b.date - a.date);
+
+            // Create timeline items
+            timelineEvents.forEach(event => {
+                const timelineItem = document.createElement('div');
+                timelineItem.className = 'timeline-item';
+
+                const timelineIcon = document.createElement('div');
+                timelineIcon.className = 'timeline-icon';
+                timelineIcon.innerHTML = `<i class="fas ${event.icon}"></i>`;
+                timelineItem.appendChild(timelineIcon);
+
+                const timelineContent = document.createElement('div');
+                timelineContent.className = 'timeline-content';
+
+                const timelineStatus = document.createElement('h4');
+                timelineStatus.textContent = event.status;
+                timelineContent.appendChild(timelineStatus);
+
+                const timelineLocation = document.createElement('p');
+                timelineLocation.textContent = event.location;
+                timelineContent.appendChild(timelineLocation);
+
+                const timelineDate = document.createElement('span');
+                timelineDate.className = 'timeline-date';
+                timelineDate.textContent = formatDate(event.date);
+                timelineContent.appendChild(timelineDate);
+
+                // Add status indicator
+                const statusIndicator = document.createElement('div');
+                statusIndicator.className = 'status-indicator';
+                statusIndicator.textContent = status.toUpperCase();
+                timelineContent.appendChild(statusIndicator);
+
+                timelineItem.appendChild(timelineContent);
+                timelineContainer.appendChild(timelineItem);
+            });
+        }
+
+        function formatDate(dateString) {
+            try {
+                if (!dateString) return 'Not available';
+
+                const date = new Date(dateString);
+
+                // Check if date is valid
+                if (isNaN(date.getTime())) return 'Not available';
+
+                const options = {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                };
+                return date.toLocaleDateString('en-US', options);
+            } catch (error) {
+                console.error('Error formatting date:', error);
+                return 'Not available';
+            }
+        }
+
+        function toggleDarkMode() {
+            const body = document.body;
+            const themeToggleBtn = document.getElementById('themeToggleBtn');
+
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
+                localStorage.setItem('darkMode', 'false');
+            } else {
+                body.classList.add('dark-mode');
+                themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+                localStorage.setItem('darkMode', 'true');
+            }
+        }
+
+        // Account dropdown functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const accountBtn = document.getElementById('account-btn');
+            const accountDropdown = document.getElementById('accountDropdown');
+
+            // Toggle dropdown when account button is clicked
+            accountBtn.addEventListener('click', function () {
+                accountDropdown.classList.toggle('show');
+            });
+
+            // Close dropdown when clicking outside
+            window.addEventListener('click', function (event) {
+                if (!event.target.matches('#account-btn') && !event.target.closest('#account-btn')) {
+                    if (accountDropdown.classList.contains('show')) {
+                        accountDropdown.classList.remove('show');
+                    }
+                }
+            });
+        });
+
+        // Logout functionality
+        function logout() {
+            // Clear all session storage
+            sessionStorage.clear();
+            window.location.href = 'index.html';
+        }
     </script>
 </body>
 

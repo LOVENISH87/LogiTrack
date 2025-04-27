@@ -1,53 +1,30 @@
 <?php
 session_start();
-require_once 'config.php';
-header('Content-Type: application/json');
+include 'db_connect.php';
 
-// Check if user is logged in
-if (!isset($_SESSION['user_id'])) {
-    echo json_encode(['success' => false, 'message' => 'Not authenticated']);
-    exit;
+if (isset($_SESSION['user_id']) && $_SERVER["REQUEST_METHOD"] === "POST") {
+    $current_password = $_POST['current_password'];
+    $new_password = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
+
+    $sql = "SELECT password FROM users WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $_SESSION['user_id']);
+    $stmt->execute();
+    $stmt->bind_result($db_password);
+    $stmt->fetch();
+    $stmt->close();
+
+    if (password_verify($current_password, $db_password)) {
+        $update_sql = "UPDATE users SET password = ? WHERE id = ?";
+        $update_stmt = $conn->prepare($update_sql);
+        $update_stmt->bind_param("si", $new_password, $_SESSION['user_id']);
+        if ($update_stmt->execute()) {
+            echo "Password updated successfully.";
+        } else {
+            echo "Error updating password.";
+        }
+        $update_stmt->close();
+    } else {
+        echo "Current password incorrect.";
+    }
 }
-
-// Get JSON data
-$data = json_decode(file_get_contents('php://input'), true);
-
-if (
-    !isset($data['oldPassword']) || !isset($data['newPassword']) ||
-    empty($data['oldPassword']) || empty($data['newPassword'])
-) {
-    echo json_encode(['success' => false, 'message' => 'All fields are required']);
-    exit;
-}
-
-$oldPassword = $data['oldPassword'];
-$newPassword = $data['newPassword'];
-$user_id = $_SESSION['user_id'];
-
-// Verify old password
-$stmt = $conn->prepare("SELECT password FROM users WHERE id = ?");
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$user = $result->fetch_assoc();
-
-if (!password_verify($oldPassword, $user['password'])) {
-    echo json_encode(['success' => false, 'message' => 'Current password is incorrect']);
-    exit;
-}
-
-// Hash new password
-$hashed_password = password_hash($newPassword, PASSWORD_DEFAULT);
-
-// Update password
-$stmt = $conn->prepare("UPDATE users SET password = ? WHERE id = ?");
-$stmt->bind_param("si", $hashed_password, $user_id);
-
-if ($stmt->execute()) {
-    echo json_encode(['success' => true, 'message' => 'Password updated successfully']);
-} else {
-    echo json_encode(['success' => false, 'message' => 'Failed to update password']);
-}
-
-$stmt->close();
-$conn->close();

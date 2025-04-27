@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - LogiTrack</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .about-container {
+            width: 100%;
+            margin: 0;
+            padding: 2rem;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .back-to-dashboard {
+            position: absolute;
+            left: 2rem;
+            top: 2rem;
+            padding: 0.5rem 1rem;
+            background-color: #1565c0;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-to-dashboard:hover {
+            background-color: #0d47a1;
+        }
+
+        .back-to-dashboard i {
+            font-size: 1rem;
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .about-header h1 {
+            color: #1565c0;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .about-content h2 {
+            color: #1565c0;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            border-bottom: 2px solid #1565c0;
+            padding-bottom: 0.5rem;
+        }
+
+        .about-content p {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .team-section {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-section h2 {
+            color: #1565c0;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .team-member {
+            background-color: #f5f5f5;
+            padding: 1rem;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .team-member h3 {
+            color: #1565c0;
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .tech-item {
+            background-color: #f5f5f5;
+            padding: 1rem;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .tech-item i {
+            font-size: 2rem;
+            color: #1565c0;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 1rem 0;
+        }
+
+        .timeline-item {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline-item:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #1565c0;
+        }
+
+        .timeline-item h4 {
+            color: #1565c0;
+            margin-bottom: 0.5rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .feature-item {
+            background-color: #f5f5f5;
+            padding: 1rem;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .feature-item i {
+            font-size: 1.5rem;
+            color: #1565c0;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Dark mode styles */
+        body.dark-mode .about-content,
+        body.dark-mode .team-section {
+            background-color: #1e3a5f;
+            border: 1px solid #2c5282;
+        }
+
+        body.dark-mode .about-content p {
+            color: #e2e8f0;
+        }
+
+        body.dark-mode .team-member {
+            background-color: #2c5282;
+        }
+
+        body.dark-mode .tech-item,
+        body.dark-mode .timeline-item,
+        body.dark-mode .feature-item {
+            background-color: #2c5282;
+        }
+
+        body.dark-mode .tech-item i,
+        body.dark-mode .feature-item i {
+            color: #64b5f6;
+        }
+
+        body.dark-mode .timeline-item:before {
+            background-color: #64b5f6;
+        }
+
+        body.dark-mode .back-to-dashboard {
+            background-color: #1e3a5f;
+        }
+
+        body.dark-mode .back-to-dashboard:hover {
+            background-color: #2c5282;
+        }
+
+        @media (max-width: 768px) {
+            .about-container {
+                padding: 1rem;
+            }
+
+            .about-content {
+                padding: 1rem;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="about-container">
+        <a href="dashboard.html" class="back-to-dashboard">
+            <i class="fas fa-arrow-left"></i>
+            Back to Dashboard
+        </a>
+
+        <div class="about-header">
+            <h1>About LogiTrack</h1>
+            <p>A College Project by Team LogiTrack</p>
+        </div>
+
+        <div class="about-content">
+            <h2>Project Overview</h2>
+            <p>LogiTrack is a web-based shipment tracking system developed as part of our college project. The system
+                allows users to track their shipments in real-time and view their shipment history.</p>
+
+            <h2>Project Timeline</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>Phase 1: Planning</h4>
+                    <p>Project requirements analysis and system design</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Phase 2: Development</h4>
+                    <p>Frontend and backend implementation</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Phase 3: Testing</h4>
+                    <p>System testing and bug fixes</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Phase 4: Deployment</h4>
+                    <p>Final deployment and documentation</p>
+                </div>
+            </div>
+
+            <h2>Technologies Used</h2>
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <i class="fab fa-html5"></i>
+                    <h4>HTML5</h4>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-css3-alt"></i>
+                    <h4>CSS3</h4>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-js"></i>
+                    <h4>JavaScript</h4>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-database"></i>
+                    <h4>Local Storage</h4>
+                </div>
+            </div>
+
+            <h2>Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <i class="fas fa-search"></i>
+                    <h4>Real-time Tracking</h4>
+                    <p>Track shipments with live updates</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-user-shield"></i>
+                    <h4>User Authentication</h4>
+                    <p>Secure login and registration</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-history"></i>
+                    <h4>History Management</h4>
+                    <p>View past shipments</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-moon"></i>
+                    <h4>Dark Mode</h4>
+                    <p>Eye-friendly interface</p>
+                </div>
+            </div>
+
+            <h2>Project Goals</h2>
+            <ul>
+                <li>Create a user-friendly shipment tracking system</li>
+                <li>Implement secure user authentication</li>
+                <li>Develop responsive design for all devices</li>
+                <li>Ensure smooth user experience</li>
+                <li>Maintain clean and efficient code</li>
+            </ul>
+        </div>
+
+        <div class="team-section">
+            <h2>Team Members</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <h3>Kundan</h3>
+                </div>
+                <div class="team-member">
+                    <h3>Lavkush</h3>
+                </div>
+                <div class="team-member">
+                    <h3>Avinash</h3>
+                </div>
+                <div class="team-member">
+                    <h3>Lovenish</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+            }
+        });
+    </script>
+</body>
+
+</html>

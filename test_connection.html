@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Database Connection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        pre {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Test Database Connection</h1>
+
+    <div class="container">
+        <h2>Test Connection</h2>
+        <button id="testConnection">Test Database Connection</button>
+        <div id="connectionResult" class="result"></div>
+    </div>
+
+    <div class="container">
+        <h2>Test Registration</h2>
+        <button id="testRegister">Register Test User</button>
+        <div id="registerResult" class="result"></div>
+    </div>
+
+    <div class="container">
+        <h2>Test Login</h2>
+        <button id="testLogin">Login Test User</button>
+        <div id="loginResult" class="result"></div>
+    </div>
+
+    <script>
+        // Test database connection
+        document.getElementById('testConnection').addEventListener('click', function () {
+            const formData = new FormData();
+            formData.append('action', 'test_connection');
+
+            fetch('php/test_connection.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('connectionResult').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                })
+                .catch(error => {
+                    document.getElementById('connectionResult').innerHTML = '<pre>Error: ' + error.message + '</pre>';
+                });
+        });
+
+        // Test user registration
+        document.getElementById('testRegister').addEventListener('click', function () {
+            const formData = new FormData();
+            formData.append('action', 'test_register');
+            formData.append('username', 'Test User');
+            formData.append('email', 'test@example.com');
+            formData.append('password', 'password123');
+            formData.append('phone', '1234567890');
+
+            fetch('php/test_connection.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('registerResult').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                })
+                .catch(error => {
+                    document.getElementById('registerResult').innerHTML = '<pre>Error: ' + error.message + '</pre>';
+                });
+        });
+
+        // Test user login
+        document.getElementById('testLogin').addEventListener('click', function () {
+            const formData = new FormData();
+            formData.append('action', 'test_login');
+            formData.append('email', 'test@example.com');
+            formData.append('password', 'password123');
+
+            fetch('php/test_connection.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('loginResult').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                })
+                .catch(error => {
+                    document.getElementById('loginResult').innerHTML = '<pre>Error: ' + error.message + '</pre>';
+                });
+        });
+    </script>
+</body>
+
+</html>
