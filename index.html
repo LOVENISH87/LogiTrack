@@ -15,22 +15,31 @@
         <div class="forms-container">
             <!-- Initial Welcome Screen -->
             <div class="welcome-screen" id="welcome-screen">
-                <h1 class="title"> LogiTrack</h1>
-                <p class="welcome-text">Choose an option to continue</p>
-                <div class="welcome-buttons">
-                    <button class="btn solid" id="show-signin-btn">Sign In</button>
-
-                    <button class="btn solid" id="show-signup-btn">Sign Up</button>
+                <h1 class="title">LogiTrack Portal</h1>
+                <p class="welcome-text">Select your destination</p>
+                <div class="welcome-buttons" style="flex-direction: column; gap: 1rem; width: 100%;">
+                    <button class="btn solid" id="btn-track" style="width: 100%;">
+                        <i class="fas fa-shipping-fast" style="margin-right: 8px;"></i> LogiTrack Dashboard
+                    </button>
+                    <button class="btn solid" id="btn-store"
+                        style="width: 100%; background: linear-gradient(45deg, #FF6B6B, #9D4EDD);">
+                        <i class="fas fa-shopping-cart" style="margin-right: 8px;"></i> LogiStore Shop
+                    </button>
+                    <p style="margin-top: 1rem; font-size: 0.9rem;">
+                        New here? <a href="#" id="show-signup-btn"
+                            style="color: var(--secondary-color); text-decoration: none; font-weight: 600;">Create an
+                            Account</a>
+                    </p>
                 </div>
             </div>
 
             <div class="signin-signup">
                 <!-- Login Form -->
-                <form action="php/login.php" method="POST" class="sign-in-form" style="display: none;">
+                <form class="sign-in-form" style="display: none;">
                     <h2 class="title">Sign In</h2>
                     <div class="input-field">
                         <i class="fas fa-envelope"></i>
-                        <input type="email" name="email" placeholder="Email" required />
+                        <input type="text" name="email" placeholder="Email or Username" required />
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
@@ -41,7 +50,7 @@
                 </form>
                 <!-- Registration Form -->
 
-                <form action="php/register.php" method="POST" class="sign-up-form" style="display: none;">
+                <form class="sign-up-form" style="display: none;">
                     <h2 class="title">Sign Up</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
@@ -82,6 +91,7 @@
 
 
     <script src="js/app.js"></script>
+
 </body>
 
 </html>

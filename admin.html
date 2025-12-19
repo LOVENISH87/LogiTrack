@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogiTrack - Admin Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/api.js"></script>
+    <style>
+        :root {
+            --primary-color: #1e3a5f;
+            --accent-color: #2c5282;
+            --bg-color: #f4f6f8;
+            --card-bg: #ffffff;
+            --text-color: #333;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
+
+        .admin-container {
+            padding: 1rem;
+            max-width: 100%;
+            margin: 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .admin-header h1 {
+            margin: 0;
+            color: var(--primary-color);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            padding: 1rem 2rem;
+            background: var(--card-bg);
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            color: #555;
+            flex: 1;
+            text-align: center;
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+            margin-top: 1rem;
+        }
+
+        th {
+            text-align: left;
+            padding: 1rem;
+            color: #666;
+            font-weight: 600;
+            border-bottom: 2px solid #eee;
+        }
+
+        td {
+            padding: 1rem;
+            background: #fff;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr td:first-child {
+            border-left: 1px solid #eee;
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+        }
+
+        tr td:last-child {
+            border-right: 1px solid #eee;
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        tr:hover td {
+            background-color: #f9fafb;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: white;
+            transition: all 0.2s;
+            margin-right: 0.5rem;
+        }
+
+        .btn-update {
+            background-color: #3b82f6;
+        }
+
+        /* Blue */
+        .btn-update:hover {
+            background-color: #2563eb;
+        }
+
+        .btn-delete {
+            background-color: #ef4444;
+        }
+
+        /* Red */
+        .btn-delete:hover {
+            background-color: #dc2626;
+        }
+
+        .btn-promote {
+            background-color: #10b981;
+        }
+
+        /* Green */
+        .btn-promote:hover {
+            background-color: #059669;
+        }
+
+        .btn-rate {
+            background-color: #f59e0b;
+        }
+
+        /* Amber */
+        .btn-rate:hover {
+            background-color: #d97706;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.1);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 500px;
+            position: relative;
+            top: auto;
+            left: auto;
+            right: auto;
+            bottom: auto;
+            transform: none;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 1.5rem;
+            top: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .add-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .add-btn:hover {
+            background-color: var(--accent-color);
+        }
+
+        .rating-star {
+            color: #f59e0b;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1><i class="fas fa-shield-alt"></i> Admin Dashboard</h1>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <span id="adminName" style="font-weight: 600;">Admin</span>
+                <button onclick="logout()" class="action-btn btn-delete"><i class="fas fa-sign-out-alt"></i>
+                    Logout</button>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('shipments')"><i class="fas fa-box"></i>
+                Shipments</button>
+            <button class="tab-btn" onclick="switchTab('agents')"><i class="fas fa-truck-loading"></i> Delivery
+                Agents</button>
+            <button class="tab-btn" onclick="switchTab('users')"><i class="fas fa-users"></i> All Users</button>
+            <button class="tab-btn" onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i> User
+                View</button>
+        </div>
+
+        <!-- Shipments Tab -->
+        <div id="shipments" class="tab-content active">
+            <button class="add-btn" onclick="openAddShipmentModal()"><i class="fas fa-plus"></i> Add New
+                Shipment</button>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tracking ID</th>
+                        <th>Order ID</th>
+                        <th>Status</th>
+                        <th>Location</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="shipmentsTableBody">
+                    <!-- Loaded dynamically -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Delivery Agents Tab -->
+        <div id="agents" class="tab-content">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Rating</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="agentsTableBody">
+                    <!-- Loaded dynamically -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Users Tab -->
+        <div id="users" class="tab-content">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Joined</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                    <!-- Loaded dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add Shipment Modal -->
+    <div id="addShipmentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('addShipmentModal')">&times;</span>
+            <h2 style="margin-top:0">Add New Shipment</h2>
+            <form id="addShipmentForm">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label>Order ID</label>
+                        <input type="text" name="orderId" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Tracking ID</label>
+                        <input type="text" name="trackingId" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Sender Address</label>
+                    <input type="text" name="sender" placeholder="Name, Address" required>
+                </div>
+                <div class="form-group">
+                    <label>Receiver Address</label>
+                    <input type="text" name="receiver" placeholder="Name, Address" required>
+                </div>
+                <!-- Adding Shipped and Returned to dropdown -->
+                <div class="form-group">
+                    <label>Current Status</label>
+                    <select name="currentStatus">
+                        <option value="Order Placed">Order Placed</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Picked Up">Picked Up</option>
+                        <option value="In Transit">In Transit</option>
+                        <option value="Out for Delivery">Out for Delivery</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Returned">Returned</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Current Location</label>
+                    <input type="text" name="currentLocation" required>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input type="text" name="productName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input type="number" name="price" step="0.01" required>
+                    </div>
+                </div>
+                <button type="submit" class="add-btn" style="width: 100%; justify-content: center;">Create
+                    Shipment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Update Shipment Modal -->
+    <div id="updateShipmentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('updateShipmentModal')">&times;</span>
+            <h2 style="margin-top:0">Update Shipment Status</h2>
+            <form id="updateShipmentForm">
+                <input type="hidden" id="updateTrackingId">
+                <div class="form-group">
+                    <label>New Status</label>
+                    <select id="updateStatus">
+                        <option value="Order Placed">Order Placed</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Picked Up">Picked Up</option>
+                        <option value="In Transit">In Transit</option>
+                        <option value="Out for Delivery">Out for Delivery</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Returned">Returned</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>New Location</label>
+                    <input type="text" id="updateLocation" required>
+                </div>
+                <div class="form-group">
+                    <label>Description/Note</label>
+                    <input type="text" id="updateDescription" placeholder="Optional update note">
+                </div>
+                <button type="submit" class="add-btn" style="width: 100%; justify-content: center;">Update
+                    Status</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Rate Agent Modal -->
+    <div id="rateAgentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('rateAgentModal')">&times;</span>
+            <h2 style="margin-top:0">Rate Delivery Agent</h2>
+            <form id="rateAgentForm">
+                <input type="hidden" id="rateUserId">
+                <div class="form-group">
+                    <label>Rating (1-5)</label>
+                    <select id="agentRating" required>
+                        <option value="5">5 - Excellent</option>
+                        <option value="4">4 - Good</option>
+                        <option value="3">3 - Average</option>
+                        <option value="2">2 - Poor</option>
+                        <option value="1">1 - Terrible</option>
+                    </select>
+                </div>
+                <button type="submit" class="add-btn" style="width: 100%; justify-content: center;">Update
+                    Rating</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const token = sessionStorage.getItem('token');
+            if (!token) window.location.href = 'index.html';
+            loadShipments();
+        });
+
+        function logout() {
+            sessionStorage.clear();
+            window.location.href = 'index.html';
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            if (tabName === 'shipments') loadShipments();
+            if (tabName === 'agents') loadAgents();
+            if (tabName === 'users') loadUsers();
+        }
+
+        // --- Shipments ---
+        async function loadShipments() {
+            try {
+                const data = await window.api.get('/shipment/all');
+                if (data.success) {
+                    const tbody = document.getElementById('shipmentsTableBody');
+                    tbody.innerHTML = '';
+                    data.shipments.forEach(s => {
+                        const tr = document.createElement('tr');
+                        let statusColor = '#666';
+                        if (s.currentStatus === 'Delivered') statusColor = '#10b981';
+                        if (s.currentStatus === 'Processing') statusColor = '#f59e0b';
+
+                        tr.innerHTML = `
+                            <td><span style="font-family:monospace; font-weight:bold;">${s.trackingId}</span></td>
+                            <td>${s.orderId || '-'}</td>
+                            <td><span class="status-badge" style="background:${statusColor}20; color:${statusColor}">${s.currentStatus}</span></td>
+                            <td>${s.currentLocation}</td>
+                            <td>
+                                <button class="action-btn btn-update" onclick="openUpdateModal('${s.trackingId}', '${s.currentStatus}', '${s.currentLocation}')"><i class="fas fa-edit"></i></button>
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        // --- Users & Agents ---
+        async function loadUsers() {
+            try {
+                const users = await window.api.get('/auth/users');
+                const tbody = document.getElementById('usersTableBody');
+                tbody.innerHTML = '';
+                users.forEach(u => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${u.username}</td>
+                        <td>${u.email}</td>
+                        <td>${u.role}</td>
+                        <td>${new Date(u.createdAt).toLocaleDateString()}</td>
+
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) { console.error(err); }
+        }
+
+        async function loadAgents() {
+            try {
+                const users = await window.api.get('/auth/users');
+                const agents = users.filter(u => u.role === 'delivery_agent');
+                const tbody = document.getElementById('agentsTableBody');
+                tbody.innerHTML = '';
+                agents.forEach(a => {
+                    const tr = document.createElement('tr');
+                    let stars = '';
+                    for (let i = 0; i < (a.rating || 0); i++) stars += '<i class="fas fa-star rating-star"></i>';
+
+                    tr.innerHTML = `
+                        <td>${a.username}</td>
+                        <td>${a.email}</td>
+                        <td>${stars || 'No Rating'}</td>
+                        <td>
+                            <button class="action-btn btn-rate" onclick="openRateModal('${a._id}')">Rate</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) { console.error(err); }
+        }
+
+        // --- Actions ---
+
+        async function promoteToAgent(id) {
+            if (!confirm('Are you sure you want to promote this user to Delivery Agent?')) return;
+            try {
+                const res = await window.api.put(`/auth/users/${id}`, { role: 'delivery_agent' });
+                if (res.success) {
+                    alert('User promoted!');
+                    loadUsers();
+                }
+            } catch (e) { console.error(e); alert('Error promoting user'); }
+        }
+
+        function openRateModal(id) {
+            document.getElementById('rateUserId').value = id;
+            document.getElementById('rateAgentModal').style.display = 'flex';
+        }
+
+        document.getElementById('rateAgentForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const id = document.getElementById('rateUserId').value;
+            const rating = document.getElementById('agentRating').value;
+            try {
+                const res = await window.api.put(`/auth/users/${id}`, { rating: parseInt(rating) });
+                if (res.success) {
+                    alert('Agent Rated!');
+                    closeModal('rateAgentModal');
+                    loadAgents();
+                }
+            } catch (e) { console.error(e); alert('Error rating agent'); }
+        });
+
+        // --- Shipment Modals (Update & Add) ---
+        function openAddShipmentModal() { document.getElementById('addShipmentModal').style.display = 'flex'; }
+
+        document.getElementById('addShipmentForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = {
+                orderId: formData.get('orderId'),
+                trackingId: formData.get('trackingId'),
+                sender: { address: formData.get('sender') },
+                receiver: { address: formData.get('receiver') },
+                currentStatus: formData.get('currentStatus'),
+                currentLocation: formData.get('currentLocation'),
+                productDetails: { name: formData.get('productName'), price: parseFloat(formData.get('price')) },
+                totalAmount: parseFloat(formData.get('price')),
+                estimatedDelivery: new Date().toISOString()
+            };
+            try {
+                const res = await window.api.post('/shipment', data);
+                if (res.success) {
+                    alert('Shipment Created!'); closeModal('addShipmentModal'); loadShipments(); e.target.reset();
+                } else { alert('Error: ' + res.message); }
+            } catch (e) { console.error(e); alert('Failed to create shipment'); }
+        });
+
+        function openUpdateModal(id, status, location) {
+            document.getElementById('updateTrackingId').value = id;
+            document.getElementById('updateStatus').value = status;
+            document.getElementById('updateLocation').value = location;
+            document.getElementById('updateShipmentModal').style.display = 'flex';
+        }
+
+        document.getElementById('updateShipmentForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const id = document.getElementById('updateTrackingId').value;
+            const status = document.getElementById('updateStatus').value;
+            const location = document.getElementById('updateLocation').value;
+            const description = document.getElementById('updateDescription').value;
+            try {
+                const res = await window.api.put(`/shipment/${id}`, { status, location, description });
+                if (res.success) {
+                    alert('Shipment Updated!'); closeModal('updateShipmentModal'); loadShipments();
+                }
+            } catch (e) { console.error(e); alert('Failed to update'); }
+        });
+
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        window.onclick = function (event) { if (event.target.classList.contains('modal')) event.target.style.display = "none"; }
+    </script>
+</body>
+
+</html>

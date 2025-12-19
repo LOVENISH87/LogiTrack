@@ -7,6 +7,7 @@
     <title>Shipment Details - LogiTrack</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="js/api.js"></script>
     <script src="shared-data.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
@@ -796,7 +797,7 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', async function () {
             // Check if user is logged in
             const userEmail = sessionStorage.getItem('userEmail');
             if (!userEmail) {
@@ -814,19 +815,29 @@
                 return;
             }
 
-            // Check if the LogiTrackShared object is available
-            if (!window.LogiTrackShared || typeof window.LogiTrackShared.getShipmentDetails !== 'function') {
-                console.error('Shared data functions not available');
-                alert('Error: Unable to load shipment data. Please try again later.');
-                return;
+            // Fetch real data
+            try {
+                // Determine API endpoint based on type
+                // Our backend /search handles both via query params
+                const data = await window.api.get(`/shipment/search?type=${searchType}&value=${searchId}`);
+
+                if (data.success) {
+                    const shipmentDetails = data.shipment;
+
+                    // Normalize the response structure if needed for displayShipmentDetails
+                    // The API returns structure similar to what we built in controller
+                    // shipmentDetails includes: id, trackingId, purchaseDate, etc.
+
+                    displayShipmentDetails(shipmentDetails, searchType);
+                    updateStatusCounts(shipmentDetails.status);
+                } else {
+                    alert(data.message || 'Shipment not found');
+                    window.location.href = 'dashboard.html';
+                }
+            } catch (error) {
+                console.error('Failed to load shipment:', error);
+                alert('Error loading shipment data. Checking if server is running...');
             }
-
-            // Get shipment details using the shared function
-            const shipmentDetails = window.LogiTrackShared.getShipmentDetails(searchId, searchType);
-            displayShipmentDetails(shipmentDetails, searchType);
-
-            // Update status counts
-            updateStatusCounts(shipmentDetails.status);
 
             // Set the theme based on user preference
             const darkMode = localStorage.getItem('darkMode') === 'true';
@@ -864,16 +875,22 @@
                 statusBadge.innerHTML = `<span class="status-badge status-${status}">${shipment.status || 'Processing'}</span>`;
 
                 // Update shipment information
-                document.getElementById('shipmentId').textContent = (shipment.shipments && shipment.shipments[0] && shipment.shipments[0].tracking_id) || 'N/A';
+                // API returns: id (orderId), trackingId, etc.
+                document.getElementById('shipmentId').textContent = shipment.id || 'N/A';
                 document.getElementById('shipmentType').textContent = searchType ? searchType.charAt(0).toUpperCase() + searchType.slice(1) : 'Order';
 
-                // Check if properties exist before accessing them
-                const shipmentItem = shipment.shipments && shipment.shipments[0] ? shipment.shipments[0] : {};
-                document.getElementById('origin').textContent = shipmentItem.origin || 'N/A';
-                document.getElementById('destination').textContent = shipmentItem.destination || 'N/A';
-                document.getElementById('estimatedDelivery').textContent = formatDate(shipmentItem.estimated_delivery);
+                document.getElementById('origin').textContent = (shipment.address && shipment.address.city) ? shipment.address.city : 'Unknown';
+                // Destination logic might differ if not explicitly in API, but let's assume address is destination
+                document.getElementById('destination').textContent = (shipment.address && shipment.address.city) + ', ' + (shipment.address.state || '') || 'Unknown';
+
+                // Estimated delivery not currently in API response, mock or hide?
+                // API has purchaseDate but not estimated.
+                document.getElementById('estimatedDelivery').textContent = 'Pending';
+
                 document.getElementById('currentStatus').textContent = shipment.status || 'Processing';
-                document.getElementById('lastUpdate').textContent = formatDate(shipmentItem.last_updated);
+                // API timeline is an array. Last event date or now.
+                const lastEvent = shipment.timeline && shipment.timeline.length > 0 ? shipment.timeline[shipment.timeline.length - 1] : null;
+                document.getElementById('lastUpdate').textContent = lastEvent ? lastEvent.date : 'Just now';
 
                 // Update timeline
                 updateTimeline(shipment);

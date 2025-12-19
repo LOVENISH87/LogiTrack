@@ -56,18 +56,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const newUsername = this.newUsername.value.trim();
 
         try {
-            const response = await fetch('php/update_username.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ newUsername })
-            });
-
-            const data = await response.json();
+            const data = await window.api.put('/auth/profile', { newUsername });
 
             if (data.success) {
                 alert('Username updated successfully!');
+                sessionStorage.setItem('username', data.username); // Update session
                 usernameModal.style.display = 'none';
                 location.reload();
             } else {
@@ -91,15 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         try {
-            const response = await fetch('php/update_password.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ oldPassword, newPassword })
-            });
-
-            const data = await response.json();
+            const data = await window.api.put('/auth/password', { oldPassword, newPassword });
 
             if (data.success) {
                 alert('Password updated successfully!');
@@ -119,23 +104,28 @@ document.addEventListener('DOMContentLoaded', function () {
 async function loadShipments() {
     const shipmentsList = document.getElementById('shipmentsList');
     const loadingSpinner = document.getElementById('loadingSpinner');
+    const token = sessionStorage.getItem('token');
 
-    loadingSpinner.style.display = 'flex';
+    if (loadingSpinner) loadingSpinner.style.display = 'flex';
+
+    if (!token) {
+        window.location.href = 'index.html'; // Redirect if not logged in
+        return;
+    }
 
     try {
-        const response = await fetch('php/get_shipments.php');
-        const data = await response.json();
+        const data = await window.api.get('/shipment');
 
         if (data.success) {
             displayShipments(data.shipments);
         } else {
-            shipmentsList.innerHTML = '<p>No shipments found.</p>';
+            if (shipmentsList) shipmentsList.innerHTML = '<p>No shipments found.</p>';
         }
     } catch (error) {
         console.error('Error:', error);
-        shipmentsList.innerHTML = '<p>Error loading shipments. Please try again later.</p>';
+        if (shipmentsList) shipmentsList.innerHTML = '<p>Error loading shipments. Please try again later.</p>';
     } finally {
-        loadingSpinner.style.display = 'none';
+        if (loadingSpinner) loadingSpinner.style.display = 'none';
     }
 }
 
@@ -144,29 +134,23 @@ async function searchShipments(type, value) {
     const shipmentsList = document.getElementById('shipmentsList');
     const loadingSpinner = document.getElementById('loadingSpinner');
 
-    loadingSpinner.style.display = 'flex';
+    if (loadingSpinner) loadingSpinner.style.display = 'flex';
 
     try {
-        const response = await fetch('php/search_shipments.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ type, value })
-        });
-
-        const data = await response.json();
+        // Using GET as per new API design
+        const data = await window.api.get(`/shipment/search?type=${type}&value=${value}`);
 
         if (data.success) {
-            displayShipments(data.shipments);
+            // Transform single shipment to array for display
+            displayShipments([data.shipment]); 
         } else {
-            shipmentsList.innerHTML = '<p>No shipments found.</p>';
+            if (shipmentsList) shipmentsList.innerHTML = '<p>No shipments found.</p>';
         }
     } catch (error) {
         console.error('Error:', error);
-        shipmentsList.innerHTML = '<p>Error searching shipments. Please try again later.</p>';
+        if (shipmentsList) shipmentsList.innerHTML = '<p>Error searching shipments. Please try again later.</p>';
     } finally {
-        loadingSpinner.style.display = 'none';
+        if (loadingSpinner) loadingSpinner.style.display = 'none';
     }
 }
 
