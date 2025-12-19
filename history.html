@@ -7,6 +7,7 @@
     <title>LogiTrack - Shipment History</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="js/api.js"></script>
     <script src="shared-data.js"></script>
     <style>
         body {
@@ -562,98 +563,76 @@
             window.location.href = 'index.html';
         }
 
-        function displayShipments() {
+        async function displayShipments() {
             const currentUser = sessionStorage.getItem('userEmail');
             if (!currentUser) {
                 window.location.href = 'index.html';
                 return;
             }
 
-            const history = JSON.parse(sessionStorage.getItem('currentSessionHistory') || '[]');
             const shipmentList = document.getElementById('shipment-list');
             const noShipments = document.getElementById('no-shipments');
-
-            if (history.length === 0) {
-                noShipments.style.display = 'block';
-                shipmentList.style.display = 'none';
-                return;
-            }
-
-            noShipments.style.display = 'none';
-            shipmentList.style.display = 'block';
-            shipmentList.innerHTML = '';
-
-            let foundItems = false;
-
-            history.forEach(shipment => {
-                // Skip if userEmail exists and doesn't match current user
-                if (shipment.userEmail && shipment.userEmail !== currentUser) {
+            
+            try {
+                const data = await window.api.get('/shipment');
+                
+                if (!data.success || !data.shipments || data.shipments.length === 0) {
+                    noShipments.style.display = 'block';
+                    shipmentList.style.display = 'none';
                     return;
                 }
 
-                foundItems = true;
-                const shipmentItem = document.createElement('div');
-                shipmentItem.className = 'shipment-item';
+                const history = data.shipments;
 
-                // Handle both old and new format
-                const searchId = shipment.value || shipment.searchValue || '';
-                const searchType = shipment.type || shipment.searchType || 'order';
-                const status = shipment.status || 'Processing';
+                noShipments.style.display = 'none';
+                shipmentList.style.display = 'block';
+                shipmentList.innerHTML = '';
+                
+                // Render items
+                history.forEach(shipment => {
+                    const shipmentItem = document.createElement('div');
+                    shipmentItem.className = 'shipment-item';
 
-                shipmentItem.onclick = () => {
-                    window.location.href = `shipment-details.html?id=${searchId}&type=${searchType}`;
-                };
+                    // Map API fields to UI
+                    const searchId = shipment.tracking_id || 'Unknown';
+                    const searchType = 'tracking'; 
+                    const status = shipment.status || 'Processing';
+                    const formattedDate = new Date(shipment.updated_at).toLocaleDateString() || 'Unknown'; 
 
-                // Use time from the new format or timestamp from old format
-                let formattedDate = shipment.time || 'Unknown date';
-                if (shipment.timestamp && !shipment.time) {
-                    try {
-                        const searchDate = new Date(shipment.timestamp);
-                        if (!isNaN(searchDate.getTime())) {
-                            formattedDate = searchDate.toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: 'short',
-                                day: 'numeric',
-                                hour: '2-digit',
-                                minute: '2-digit'
-                            });
-                        }
-                    } catch (e) {
-                        console.error("Error formatting date:", e);
-                    }
-                }
+                    shipmentItem.onclick = () => {
+                        window.location.href = `shipment-details.html?id=${searchId}&type=${searchType}`;
+                    };
 
-                shipmentItem.innerHTML = `
-                    <div class="order-header">
-                        <div class="order-id">Order #${searchId}</div>
-                        <div class="status-badge status-${status.toLowerCase()}">
-                            ${status.charAt(0).toUpperCase() + status.slice(1)}
+                    shipmentItem.innerHTML = `
+                        <div class="order-header">
+                            <div class="order-id">Order #${searchId}</div>
+                            <div class="status-badge status-${status.toLowerCase()}">
+                                ${status.charAt(0).toUpperCase() + status.slice(1)}
+                            </div>
                         </div>
-                    </div>
-                    <div class="order-details">
-                        <div class="detail-section">
-                            <div class="detail-label">Search Type</div>
-                            <div class="detail-value">${searchType === 'order' ? 'Order ID' : 'Tracking ID'}</div>
+                        <div class="order-details">
+                            <div class="detail-section">
+                                <div class="detail-label">Search Type</div>
+                                <div class="detail-value">${searchType === 'order' ? 'Order ID' : 'Tracking ID'}</div>
+                            </div>
+                            <div class="detail-section">
+                                <div class="detail-label">Status</div>
+                                <div class="detail-value">${status}</div>
+                            </div>
+                            <div class="detail-section">
+                                <div class="detail-label">Date</div>
+                                <div class="detail-value">${formattedDate}</div>
+                            </div>
+                            <div class="search-date">
+                                Last updated: ${formattedDate}
+                            </div>
                         </div>
-                        <div class="detail-section">
-                            <div class="detail-label">Status</div>
-                            <div class="detail-value">${status}</div>
-                        </div>
-                        <div class="detail-section">
-                            <div class="detail-label">Date</div>
-                            <div class="detail-value">${formattedDate}</div>
-                        </div>
-                        <div class="search-date">
-                            Last updated: ${formattedDate}
-                        </div>
-                    </div>
-                `;
+                    `;
 
-                shipmentList.appendChild(shipmentItem);
-            });
-
-            // If no shipments were found for current user
-            if (!foundItems) {
+                    shipmentList.appendChild(shipmentItem);
+                });
+            } catch (error) {
+                console.error('Error fetching shipments:', error);
                 noShipments.style.display = 'block';
                 shipmentList.style.display = 'none';
             }

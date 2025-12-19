@@ -1,118 +1,134 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Get elements
     const welcomeScreen = document.getElementById('welcome-screen');
     const signInForm = document.querySelector('.sign-in-form');
     const signUpForm = document.querySelector('.sign-up-form');
-    const showSignInBtn = document.getElementById('show-signin-btn');
+    const btnTrack = document.getElementById('btn-track');
+    const btnStore = document.getElementById('btn-store');
     const showSignUpBtn = document.getElementById('show-signup-btn');
     const backToWelcomeBtn = document.getElementById('back-to-welcome');
     const backToWelcomeBtn2 = document.getElementById('back-to-welcome-2');
 
-    // Check if user is already logged in
-    const isLoggedIn = sessionStorage.getItem('isLoggedIn');
-    if (isLoggedIn === 'true') {
-        window.location.href = "dashboard.html";
-    }
+    const API_URL = 'http://localhost:5000/api/auth';
+    
+    let loginDestination = 'dashboard'; // Default
 
-    // Show sign-in form
-    showSignInBtn.addEventListener('click', function () {
+    // Toggle Functions
+    function showLogin(destination) {
+        loginDestination = destination;
         welcomeScreen.style.display = 'none';
         signInForm.style.display = 'flex';
-    });
+        // Optimize title based on destination?
+        const title = signInForm.querySelector('.title');
+        if(title) title.textContent = destination === 'shop' ? 'Sign In to Store' : 'Sign In to Track';
+    }
 
-    // Show sign-up form
-    showSignUpBtn.addEventListener('click', function () {
-        welcomeScreen.style.display = 'none';
-        signUpForm.style.display = 'flex';
-    });
+    if(btnTrack) {
+        btnTrack.addEventListener('click', () => showLogin('dashboard'));
+    }
 
-    // Back to welcome screen from sign-in
-    backToWelcomeBtn.addEventListener('click', function () {
-        signInForm.style.display = 'none';
-        welcomeScreen.style.display = 'flex';
-    });
+    if(btnStore) {
+        btnStore.addEventListener('click', () => showLogin('shop'));
+    }
 
-    // Back to welcome screen from sign-up
-    backToWelcomeBtn2.addEventListener('click', function () {
-        signUpForm.style.display = 'none';
-        welcomeScreen.style.display = 'flex';
-    });
+    if(showSignUpBtn) {
+        showSignUpBtn.addEventListener('click', function (e) {
+            e.preventDefault(); // It's an a tag now
+            welcomeScreen.style.display = 'none';
+            signUpForm.style.display = 'flex';
+        });
+    }
 
-    // Form submission handling
-    document.querySelector(".sign-in-form").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const email = formData.get('login');
-        const password = formData.get('password');
+    if(backToWelcomeBtn) {
+        backToWelcomeBtn.addEventListener('click', function () {
+            signInForm.style.display = 'none';
+            welcomeScreen.style.display = 'flex';
+        });
+    }
 
-        // Simple validation
-        if (!email || !password) {
-            alert("Email and password are required");
-            return;
-        }
-
-        // Check if user exists in localStorage
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        const user = users.find(u => u.email === email && u.password === password);
-
-        if (user) {
-            // User exists and credentials are correct
-            sessionStorage.setItem('isLoggedIn', 'true');
-            sessionStorage.setItem('userEmail', email);
-            sessionStorage.setItem('username', user.username);
-            sessionStorage.setItem('password', password);
-
-            // Redirect to dashboard
-            window.location.href = "dashboard.html";
-        } else {
-            // Check if email exists but password is wrong
-            const emailExists = users.some(u => u.email === email);
-            if (emailExists) {
-                alert("Incorrect password. Please try again.");
-            } else {
-                alert("Account not found. Please create an account first.");
-                // Show sign-up form
-                signInForm.style.display = 'none';
-                signUpForm.style.display = 'flex';
-            }
-        }
-    });
-
-    document.querySelector(".sign-up-form").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const username = formData.get('username');
-        const email = formData.get('email');
-        const password = formData.get('password');
-
-        // Simple validation
-        if (!username || !email || !password) {
-            alert("Username, email and password are required");
-            return;
-        }
-
-        // Check if user already exists
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        const userExists = users.some(u => u.email === email);
-
-        if (userExists) {
-            alert("An account with this email already exists. Please log in instead.");
-            // Show sign-in form
+    if(backToWelcomeBtn2) {
+        backToWelcomeBtn2.addEventListener('click', function () {
             signUpForm.style.display = 'none';
-            signInForm.style.display = 'flex';
-        } else {
-            // Create new user
-            users.push({ username, email, password });
-            localStorage.setItem('users', JSON.stringify(users));
+            welcomeScreen.style.display = 'flex';
+        });
+    }
 
-            // Log the user in
-            sessionStorage.setItem('isLoggedIn', 'true');
-            sessionStorage.setItem('userEmail', email);
-            sessionStorage.setItem('username', username);
-            sessionStorage.setItem('password', password);
+    // Handle Sign In
+    if(signInForm) {
+        signInForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const email = this.querySelector('input[name="email"]').value;
+            const password = this.querySelector('input[name="password"]').value;
 
-            // Redirect to dashboard
-            window.location.href = "dashboard.html";
-        }
-    });
-}); 
+            try {
+                const res = await fetch(`${API_URL}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    sessionStorage.setItem('isLoggedIn', 'true');
+                    sessionStorage.setItem('token', data.token);
+                    sessionStorage.setItem('user', JSON.stringify(data)); // Store full user object for dashboard
+
+                    // Redirection Logic
+                    if (loginDestination === 'shop') {
+                        window.location.href = 'shop.html';
+                    } else {
+                        // Dashboard Logic
+                        if (data.role === 'admin') {
+                            window.location.href = 'admin.html';
+                        } else {
+                            window.location.href = 'dashboard.html';
+                        }
+                    }
+                } else {
+                    alert(data.message || 'Login failed');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Connection error. Is the server running?');
+            }
+        });
+    }
+
+    // Handle Sign Up
+    if(signUpForm) {
+        signUpForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const username = this.querySelector('input[name="username"]').value;
+            const email = this.querySelector('input[name="email"]').value;
+            const password = this.querySelector('input[name="password"]').value;
+            // Robustly checking for phone input presence
+            const phoneInput = this.querySelector('input[name="phone"]');
+            const phone = phoneInput ? phoneInput.value : "";
+
+            try {
+                const res = await fetch(`${API_URL}/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, password, phone })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    // Auto-login after registration
+                    sessionStorage.setItem('isLoggedIn', 'true');
+                    sessionStorage.setItem('token', data.token);
+                    sessionStorage.setItem('user', JSON.stringify(data));
+
+                    alert('Registration successful! Redirecting to dashboard...');
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert(data.message || 'Registration failed');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Connection error. Is the server running?');
+            }
+        });
+    }
+});

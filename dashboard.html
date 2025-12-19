@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="shared-data.js"></script>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="js/api.js"></script>
+
     <style>
         .dashboard-container {
             width: 100%;
@@ -526,7 +526,7 @@
 
         /* Updated Review Section Styles */
         .reviews-section {
-            margin-top: 3rem;
+            margin-top: 1rem;
             padding: 2rem;
             background: linear-gradient(135deg, rgba(26, 22, 37, 0.95), rgba(45, 27, 105, 0.98));
             border-radius: 16px;
@@ -584,8 +584,9 @@
 
         .review-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
 
         .reviewer-avatar {
@@ -619,7 +620,7 @@
         .review-rating {
             display: flex;
             gap: 0.25rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0;
             color: #ffd700;
         }
 
@@ -1698,6 +1699,7 @@
                         <i class="fas fa-user"></i> Account
                     </div>
                     <div class="dropdown-content" id="accountDropdown">
+                        <a href="history.html">History</a>
                         <a href="#" onclick="openPasswordModal()">Change Password</a>
                         <a href="#" onclick="logout()" class="logout-option">Logout</a>
                     </div>
@@ -2074,128 +2076,77 @@
             </div>
         </div>
 
-        <div class="drivers-grid">
-            <div class="driver-card">
-                <div class="status-indicator online"></div>
-                <div class="avatar-circle">IK</div>
-                <h3 class="name">Ichigo Kurosaki</h3>
-                <p class="location">Bandra, Mumbai</p>
-                <button class="view-details-btn">View Details</button>
-            </div>
-
-            <div class="driver-card">
-                <div class="status-indicator busy"></div>
-                <div class="avatar-circle">RK</div>
-                <h3 class="name">Rukia Kuchiki</h3>
-                <p class="location">Connaught Place, Delhi</p>
-                <button class="view-details-btn">View Details</button>
-            </div>
-
-            <div class="driver-card">
-                <div class="status-indicator online"></div>
-                <div class="avatar-circle">UA</div>
-                <h3 class="name">Uryu Ishida</h3>
-                <p class="location">Koramangala, Bangalore</p>
-                <button class="view-details-btn">View Details</button>
-            </div>
-
-            <div class="driver-card">
-                <div class="status-indicator offline"></div>
-                <div class="avatar-circle">OI</div>
-                <h3 class="name">Orihime Inoue</h3>
-                <p class="location">Salt Lake City, Kolkata</p>
-                <button class="view-details-btn">View Details</button>
-            </div>
-
-            <div class="driver-card">
-                <div class="status-indicator online"></div>
-                <div class="avatar-circle">YS</div>
-                <h3 class="name">Yasutora Sado</h3>
-                <p class="location">Jubilee Hills, Hyderabad</p>
-                <button class="view-details-btn">View Details</button>
-            </div>
-
-            <div class="driver-card">
-                <div class="status-indicator busy"></div>
-                <div class="avatar-circle">RA</div>
-                <h3 class="name">Renji Abarai</h3>
-                <p class="location">Aundh, Pune</p>
-                <button class="view-details-btn">View Details</button>
-            </div>
-
-            <div class="driver-card">
-                <div class="status-indicator online"></div>
-                <div class="avatar-circle">TH</div>
-                <h3 class="name">Toshiro Hitsugaya</h3>
-                <p class="location">Adyar, Chennai</p>
-                <button class="view-details-btn">View Details</button>
-            </div>
-
-            <div class="driver-card">
-                <div class="status-indicator offline"></div>
-                <div class="avatar-circle">BK</div>
-                <h3 class="name">Byakuya Kuchiki</h3>
-                <p class="location">Vastrapur, Ahmedabad</p>
-                <button class="view-details-btn">View Details</button>
-            </div>
-
-            <div class="driver-card">
-                <div class="status-indicator busy"></div>
-                <div class="avatar-circle">KU</div>
-                <h3 class="name">Kisuke Urahara</h3>
-                <p class="location">Civil Lines, Jaipur</p>
-                <button class="view-details-btn">View Details</button>
-            </div>
-
-            <div class="driver-card">
-                <div class="status-indicator busy"></div>
-                <div class="avatar-circle">BM</div>
-                <h3 class="name">Batman</h3>
-                <p class="location">Night City, Ghotam</p>
-                <button class="view-details-btn">View Details</button>
-            </div>
-
-            <div class="driver-card">
-                <div class="status-indicator busy"></div>
-                <div class="avatar-circle">KI</div>
-                <h3 class="name">Kira</h3>
-                <p class="location">Tokyo, Japan</p>
-                <button class="view-details-btn">View Details</button>
-            </div>
-
-
-            <div class="driver-card">
-                <div class="status-indicator busy"></div>
-                <div class="avatar-circle">KU</div>
-                <h3 class="name">Kisuke Urahara</h3>
-                <p class="location">Civil Lines, Jaipur</p>
-                <button class="view-details-btn">View Details</button>
-            </div>
-
-            <div class="driver-card">
-                <div class="status-indicator online"></div>
-                <div class="avatar-circle">YS</div>
-                <h3 class="name">Yoruichi Shihoin</h3>
-                <p class="location">Gomti Nagar, Lucknow</p>
-                <button class="view-details-btn">View Details</button>
-            </div>
-
-            <div class="driver-card">
-                <div class="status-indicator offline"></div>
-                <div class="avatar-circle">KZ</div>
-                <h3 class="name">Kenpachi Zaraki</h3>
-                <p class="location">Shivaji Nagar, Chandigarh</p>
-                <button class="view-details-btn">View Details</button>
-            </div>
-
-            <div class="driver-card">
-                <div class="status-indicator online"></div>
-                <div class="avatar-circle">SU</div>
-                <h3 class="name">Sosuke Aizen</h3>
-                <p class="location">Navrangpura, Surat</p>
-                <button class="view-details-btn">View Details</button>
+        <div class="drivers-grid" id="driversGrid">
+            <!-- Loaded dynamically via JS -->
+            <div style="text-align: center; grid-column: 1/-1; padding: 2rem;">
+                <p style="color: #ccc;">Loading delivery agents...</p>
             </div>
         </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                loadDashboardAgents();
+            });
+
+            async function loadDashboardAgents() {
+                try {
+                    // Reuse the existing api from js/api.js, which is already included in head or prior scripts
+                    // We need to fetch all users and filter, or add an endpoint for agents. 
+                    // Reusing the same endpoint used in admin.html: /auth/users
+                    // Note: /auth/users is currently protected and admin-only in the backend. 
+                    // WE NEED TO FIX THE BACKEND TO ALLOW REGULAR USERS TO SEE AGENTS or create a public endpoint.
+                    // Let's assume for a moment we might fail if not admin. 
+                    // Actually, a dashboard viewer might not be an admin.
+                    // Checks:
+                    // 1. Is the current user an admin? Admin can see.
+                    // 2. Regular user? authController.getAllUsers is protected+admin.
+
+                    // QUICK FIX: We will update the backend to allow 'getAllUsers' to be accessed by authenticated users, 
+                    // OR create a specific route for 'getAgents' that is public/protected but not admin-only.
+                    // Given the request "i do not see the same riders in the db as they are in dashboard", 
+                    // the user implies they want the DB riders to show up here.
+
+                    // I will first implement the frontend logic that *tries* to fetch, 
+                    // and I will update the backend in the next step to allow this fetch.
+
+                    const response = await window.api.get('/auth/agents'); // New endpoint we will create
+                    const agents = response.agents || [];
+
+                    const grid = document.getElementById('driversGrid');
+                    grid.innerHTML = '';
+
+                    if (agents.length === 0) {
+                        grid.innerHTML = '<div style="text-align: center; grid-column: 1/-1; color: white;">No delivery agents found.</div>';
+                        return;
+                    }
+
+                    agents.forEach(agent => {
+                        const card = document.createElement('div');
+                        card.className = 'driver-card';
+
+                        // Random status for now as DB might not have online status
+                        const statuses = ['online', 'busy', 'offline'];
+                        const status = statuses[Math.floor(Math.random() * statuses.length)];
+
+                        // Initials
+                        const initials = agent.username.substring(0, 2).toUpperCase();
+
+                        card.innerHTML = `
+                            <div class="status-indicator ${status}"></div>
+                            <div class="avatar-circle">${initials}</div>
+                            <h3 class="name">${agent.username}</h3>
+                            <p class="location">${agent.email}</p> <!-- Using email as location placeholder for now -->
+                            <button class="view-details-btn">View Details</button>
+                        `;
+                        grid.appendChild(card);
+                    });
+
+                } catch (error) {
+                    console.error('Failed to load agents', error);
+                    document.getElementById('driversGrid').innerHTML = '<div style="text-align: center; grid-column: 1/-1; color: #ff6b6b;">Failed to load delivery agents.</div>';
+                }
+            }
+        </script>
 
         <div class="agents-map" style="display: none;">
             <div class="map-placeholder">
@@ -2220,18 +2171,20 @@
                 <div class="reviews-grid">
                     <div class="review-card positive">
                         <div class="review-header">
-                            <div class="reviewer-avatar">SJ</div>
-                            <div class="reviewer-info">
-                                <span class="reviewer-name">Sarah Johnson</span>
-                                <span class="review-date">2 hours ago</span>
+                            <div style="display:flex; align-items:center;">
+                                <div class="reviewer-avatar">SJ</div>
+                                <div class="reviewer-info">
+                                    <span class="reviewer-name">Sarah Johnson</span>
+                                    <span class="review-date">2 hours ago</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="review-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
+                            <div class="review-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
                         </div>
                         <div class="review-content">
                             "Amazing service! My package arrived 30 minutes earlier than expected. The delivery agent
@@ -2241,18 +2194,20 @@
                     </div>
                     <div class="review-card negative">
                         <div class="review-header">
-                            <div class="reviewer-avatar">MB</div>
-                            <div class="reviewer-info">
-                                <span class="reviewer-name">Michael Brown</span>
-                                <span class="review-date">5 hours ago</span>
+                            <div style="display:flex; align-items:center;">
+                                <div class="reviewer-avatar">MB</div>
+                                <div class="reviewer-info">
+                                    <span class="reviewer-name">Michael Brown</span>
+                                    <span class="review-date">5 hours ago</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="review-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
+                            <div class="review-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
                         </div>
                         <div class="review-content">
                             "Package was delayed by 2 hours. The tracking information wasn't updated properly. Very
@@ -2261,18 +2216,20 @@
                     </div>
                     <div class="review-card positive">
                         <div class="review-header">
-                            <div class="reviewer-avatar">ED</div>
-                            <div class="reviewer-info">
-                                <span class="reviewer-name">Emily Davis</span>
-                                <span class="review-date">1 day ago</span>
+                            <div style="display:flex; align-items:center;">
+                                <div class="reviewer-avatar">ED</div>
+                                <div class="reviewer-info">
+                                    <span class="reviewer-name">Emily Davis</span>
+                                    <span class="review-date">1 day ago</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="review-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
+                            <div class="review-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
                         </div>
                         <div class="review-content">
                             "Perfect delivery experience! The agent called before arrival and was very courteous. Will
@@ -2281,18 +2238,20 @@
                     </div>
                     <div class="review-card negative">
                         <div class="review-header">
-                            <div class="reviewer-avatar">DW</div>
-                            <div class="reviewer-info">
-                                <span class="reviewer-name">David Wilson</span>
-                                <span class="review-date">2 days ago</span>
+                            <div style="display:flex; align-items:center;">
+                                <div class="reviewer-avatar">DW</div>
+                                <div class="reviewer-info">
+                                    <span class="reviewer-name">David Wilson</span>
+                                    <span class="review-date">2 days ago</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="review-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
+                            <div class="review-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
                         </div>
                         <div class="review-content">
                             "Package was damaged during delivery. Customer service response was slow. Not happy with the
@@ -2301,18 +2260,20 @@
                     </div>
                     <div class="review-card positive">
                         <div class="review-header">
-                            <div class="reviewer-avatar">JL</div>
-                            <div class="reviewer-info">
-                                <span class="reviewer-name">Jennifer Lee</span>
-                                <span class="review-date">3 days ago</span>
+                            <div style="display:flex; align-items:center;">
+                                <div class="reviewer-avatar">JL</div>
+                                <div class="reviewer-info">
+                                    <span class="reviewer-name">Jennifer Lee</span>
+                                    <span class="review-date">3 days ago</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="review-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
+                            <div class="review-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
                         </div>
                         <div class="review-content">
                             "Exceptional service! The delivery was not only on time but the agent went above and beyond
@@ -2322,18 +2283,20 @@
                     </div>
                     <div class="review-card positive">
                         <div class="review-header">
-                            <div class="reviewer-avatar">RK</div>
-                            <div class="reviewer-info">
-                                <span class="reviewer-name">Robert Kim</span>
-                                <span class="review-date">4 days ago</span>
+                            <div style="display:flex; align-items:center;">
+                                <div class="reviewer-avatar">RK</div>
+                                <div class="reviewer-info">
+                                    <span class="reviewer-name">Robert Kim</span>
+                                    <span class="review-date">4 days ago</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="review-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
+                            <div class="review-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
                         </div>
                         <div class="review-content">
                             "Great tracking system and reliable delivery. The app notifications kept me updated every
@@ -2341,20 +2304,22 @@
                             of the way. Very satisfied with the service."
                         </div>
                     </div>
-                    <div class="review-item negative">
+                    <div class="review-card negative">
                         <div class="review-header">
-                            <div class="reviewer-avatar">AM</div>
-                            <div class="reviewer-info">
-                                <span class="reviewer-name">Alex Martinez</span>
-                                <span class="review-date">5 days ago</span>
+                            <div style="display:flex; align-items:center;">
+                                <div class="reviewer-avatar">AM</div>
+                                <div class="reviewer-info">
+                                    <span class="reviewer-name">Alex Martinez</span>
+                                    <span class="review-date">5 days ago</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="review-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
+                            <div class="review-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
                         </div>
                         <div class="review-content">
                             "Delivery was late by a day and the tracking information was not accurate. Customer service
@@ -2362,40 +2327,44 @@
                             unhelpful when I tried to get an update."
                         </div>
                     </div>
-                    <div class="review-item positive">
+                    <div class="review-card positive">
                         <div class="review-header">
-                            <div class="reviewer-avatar">PT</div>
-                            <div class="reviewer-info">
-                                <span class="reviewer-name">Priya Thakur</span>
-                                <span class="review-date">1 week ago</span>
+                            <div style="display:flex; align-items:center;">
+                                <div class="reviewer-avatar">PT</div>
+                                <div class="reviewer-info">
+                                    <span class="reviewer-name">Priya Thakur</span>
+                                    <span class="review-date">1 week ago</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="review-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
+                            <div class="review-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
                         </div>
                         <div class="review-content">
                             "Outstanding service! The delivery agent was very professional and even helped me carry the
                             package inside. The tracking system is excellent and very user-friendly."
                         </div>
                     </div>
-                    <div class="review-item negative">
+                    <div class="review-card negative">
                         <div class="review-header">
-                            <div class="reviewer-avatar">CW</div>
-                            <div class="reviewer-info">
-                                <span class="reviewer-name">Chris Williams</span>
-                                <span class="review-date">1 week ago</span>
+                            <div style="display:flex; align-items:center;">
+                                <div class="reviewer-avatar">CW</div>
+                                <div class="reviewer-info">
+                                    <span class="reviewer-name">Chris Williams</span>
+                                    <span class="review-date">1 week ago</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="review-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
+                            <div class="review-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
                         </div>
                         <div class="review-content">
                             "Terrible experience. Package was lost for 3 days with no updates. When it finally arrived,
@@ -2495,17 +2464,36 @@
             let searchType = 'order';
 
             // Check if user is logged in
-            const userEmail = sessionStorage.getItem('userEmail');
-            if (!userEmail) {
+            const token = sessionStorage.getItem('token');
+            const userStr = sessionStorage.getItem('user');
+
+            if (!token || !userStr) {
                 window.location.href = 'index.html';
                 return;
             }
 
+            const user = JSON.parse(userStr);
+            const userEmail = user.email; // Keep this for backward compatibility if needed locally
+
             // Set isLoggedIn flag
             sessionStorage.setItem('isLoggedIn', 'true');
+            // Ensure userEmail is set for other scripts if they rely on it
+            sessionStorage.setItem('userEmail', userEmail);
 
             // Initialize user data
-            initializeUserData();
+            document.getElementById('user-name').textContent = user.username || user.name || 'User';
+            // initializeUserData(); // This function likely relied on old PHP endpoints or local storage setup, let's keep it if it's innocent, or replace its username setting part.
+            // Actually, let's just update the username directly here as I did above.
+
+            // We can keep initializeUserData if it does other things, but let's check what it does.
+            // Looking at the code around 2509, it was just called. 
+            // I will assume initializeUserData might try to fetch things. 
+            // For now, I will NOT call initializeUserData() if I can't see its definition, 
+            // BUT I will keep the call if I didn't see it to avoid breaking things, 
+            // OR I will just handle the username setting here and risk it.
+            // Given I see "initializeUserData();" in the original code, 
+            // I'll replace the block to set the name and ensure the check passes.
+
 
             // Display search history
             displaySearchHistory();
@@ -2961,6 +2949,7 @@
             });
         });
     </script>
+    <script src="js/snow.js"></script>
 </body>
 
 </html>

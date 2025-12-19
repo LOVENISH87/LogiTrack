@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogiTrack - Store</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .shop-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+        }
+
+        .shop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+        }
+
+        .shop-header h1 {
+            color: var(--text-primary);
+            font-size: 2rem;
+        }
+
+        .shop-nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .shop-nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .shop-nav a:hover {
+            color: var(--primary-color);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(157, 78, 221, 0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #f0f0f0;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-category {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .product-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .product-description {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--success-color);
+        }
+
+        .btn-buy {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: opacity 0.3s;
+        }
+
+        .btn-buy:hover {
+            opacity: 0.9;
+        }
+
+        /* Modal Overrides for Shop */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .shop-modal-content {
+            background: var(--card-gradient-1);
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="shop-container">
+        <header class="shop-header">
+            <div>
+                <h1><i class="fas fa-shopping-cart"></i> LogiStore</h1>
+                <p style="color: var(--text-secondary);">Premium Logistics Supplies & Merch</p>
+            </div>
+            <nav class="shop-nav">
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="dashboard.html"><i class="fas fa-box"></i> Track</a>
+                <span id="userGreeting" style="color: var(--primary-color);"></span>
+                <a href="#" onclick="logout()" id="logoutBtn" style="display:none;">Logout</a>
+            </nav>
+        </header>
+
+        <div class="products-grid" id="productsGrid">
+            <!-- Loaded dynamically -->
+            <div style="color: white; text-align: center; grid-column: 1/-1;">Loading products...</div>
+        </div>
+    </div>
+
+    <!-- Buy Modal -->
+    <div id="buyModal" class="modal">
+        <div class="shop-modal-content">
+            <span class="close-modal" onclick="closeModal()"
+                style="position: absolute; right: 1rem; top: 1rem; cursor: pointer; color: white; font-size: 1.5rem;">&times;</span>
+            <h2 style="color: var(--text-primary); margin-bottom: 1.5rem;">Checkout</h2>
+            <div id="selectedProductInfo"
+                style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 8px; color: var(--text-secondary);">
+                <!-- Product Details -->
+            </div>
+            <form id="checkoutForm">
+                <input type="hidden" id="productId">
+                <input type="hidden" id="productPrice">
+                <input type="hidden" id="productName">
+
+                <h3
+                    style="color: var(--text-primary); font-size: 1.1rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;">
+                    Shipping Details</h3>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="receiverName" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Shipping Address</label>
+                    <input type="text" id="receiverAddress" required placeholder="123 Main St, City, Country">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="receiverPhone" required placeholder="+1 234 567 8900">
+                </div>
+
+                <h3
+                    style="color: var(--text-primary); font-size: 1.1rem; margin: 1.5rem 0 0.5rem 0; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;">
+                    Payment Method</h3>
+                <div class="form-group"
+                    style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px; border: 1px solid var(--primary-color);">
+                    <label style="display: flex; align-items: center; gap: 10px; margin: 0; cursor: pointer;">
+                        <input type="radio" checked disabled>
+                        <span><i class="fas fa-money-bill-wave" style="color: var(--success-color);"></i> Cash on
+                            Delivery (COD)</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-buy"
+                    style="width: 100%; margin-top: 1rem; font-size: 1.1rem; padding: 1rem;">
+                    Place Order
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="shop-modal-content" style="text-align: center;">
+            <div
+                style="width: 60px; height: 60px; background: var(--success-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto;">
+                <i class="fas fa-check" style="font-size: 30px; color: #1a1625;"></i>
+            </div>
+            <h2 style="color: var(--text-primary); margin-bottom: 0.5rem;">Order Confirmed!</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Thank you for your purchase.</p>
+
+            <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                <p style="color: #ccc; font-size: 0.9rem; margin-bottom: 5px;">Your Tracking ID:</p>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    <h3 id="successTrackingId"
+                        style="color: var(--primary-color); font-size: 1.5rem; letter-spacing: 2px; margin: 0;"></h3>
+                    <button onclick="copyTrackingId()"
+                        style="background: none; border: none; color: var(--text-secondary); cursor: pointer;"
+                        title="Copy to clipboard">
+                        <i class="far fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">
+                You can use this ID to track your shipment's progress.
+            </p>
+
+            <div style="display: flex; gap: 1rem;">
+                <button onclick="closeSuccessModal()" class="btn-buy"
+                    style="background: transparent; border: 1px solid var(--border-color); flex: 1;">Continue
+                    Shopping</button>
+                <a href="dashboard.html" class="btn-buy"
+                    style="text-decoration: none; display: flex; align-items: center; justify-content: center; flex: 1;">Track
+                    Order</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        let currentUser = null;
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            // Check auth
+            const token = sessionStorage.getItem('token');
+            if (token) {
+                try {
+                    document.getElementById('logoutBtn').style.display = 'inline';
+                    const user = await window.api.get('/auth/profile');
+                    if (user && user.username) {
+                        currentUser = user;
+                        document.getElementById('userGreeting').textContent = `Hi, ${currentUser.username}`;
+                    }
+                } catch (e) { console.error('Auth error:', e); }
+            }
+
+            loadProducts();
+        });
+
+        function logout() {
+            sessionStorage.clear();
+            window.location.href = 'index.html';
+        }
+
+        async function loadProducts() {
+            try {
+                const data = await window.api.get('/products');
+
+                const grid = document.getElementById('productsGrid');
+                grid.innerHTML = '';
+
+                if (data.success && data.products && data.products.length > 0) {
+                    data.products.forEach(p => {
+                        const card = document.createElement('div');
+                        card.className = 'product-card';
+                        card.innerHTML = `
+                            <img src="${p.image}" alt="${p.name}" class="product-image">
+                            <div class="product-info">
+                                <div class="product-category">${p.category || 'Item'}</div>
+                                <h3 class="product-title">${p.name}</h3>
+                                <p class="product-description">${p.description}</p>
+                                <div class="product-footer">
+                                    <div class="product-price">$${p.price.toFixed(2)}</div>
+                                    <button class="btn-buy" onclick="openBuyModal('${p._id}', '${p.name.replace(/'/g, "\\'")}', ${p.price})">
+                                        Buy Now
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                        grid.appendChild(card);
+                    });
+                } else {
+                    grid.innerHTML = '<div style="color: white; text-align: center; grid-column: 1/-1;">No products found.</div>';
+                }
+            } catch (error) {
+                console.error('Error loading products:', error);
+                document.getElementById('productsGrid').innerHTML = '<div style="color: var(--error-color); text-align: center; grid-column: 1/-1;">Failed to load products. Check your connection or server port.</div>';
+            }
+        }
+
+        function openBuyModal(id, name, price) {
+            const token = sessionStorage.getItem('token');
+            if (!token) {
+                alert('Please sign in to buy items!');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            document.getElementById('productId').value = id;
+            document.getElementById('productName').value = name;
+            document.getElementById('productPrice').value = price;
+
+            // Reset form
+            document.getElementById('checkoutForm').reset();
+
+            document.getElementById('selectedProductInfo').innerHTML = `
+                <strong>Product:</strong> ${name}<br>
+                <strong>Total:</strong> $${price.toFixed(2)}
+            `;
+
+            document.getElementById('buyModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('buyModal').style.display = 'none';
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').style.display = 'none';
+        }
+
+        function copyTrackingId() {
+            const id = document.getElementById('successTrackingId').innerText;
+            navigator.clipboard.writeText(id).then(() => {
+                alert('Tracking ID copied!');
+            });
+        }
+
+        // Close on click outside
+        window.onclick = function (event) {
+            if (event.target == document.getElementById('buyModal')) {
+                closeModal();
+            }
+            if (event.target == document.getElementById('successModal')) {
+                closeSuccessModal();
+            }
+        }
+
+        document.getElementById('checkoutForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const token = sessionStorage.getItem('token');
+            if (!token) return;
+
+            const name = document.getElementById('receiverName').value;
+            const address = document.getElementById('receiverAddress').value;
+            const phone = document.getElementById('receiverPhone').value;
+            const productName = document.getElementById('productName').value;
+            const price = parseFloat(document.getElementById('productPrice').value);
+
+            // Generate fake Order ID & Tracking ID
+            const orderId = 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+            const trackingId = 'TRK-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+
+            const payload = {
+                orderId: orderId,
+                trackingId: trackingId,
+                sender: {
+                    name: "LogiStore",
+                    address: "LogiTrack Fulfillment Center",
+                    phone: "1-800-LOGITRACK"
+                },
+                receiver: {
+                    name: name,
+                    address: address,
+                    phone: phone
+                },
+                productDetails: {
+                    name: productName,
+                    quantity: 1,
+                    price: price,
+                    image: 'https://via.placeholder.com/150' // Could pass real image if stored
+                },
+                totalAmount: price,
+                currentStatus: "In Transit",
+                currentLocation: "Processing Center",
+                role: 'user' // Hint to backend if needed?
+            };
+
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerText;
+            btn.innerText = 'Placing Order...';
+            btn.disabled = true;
+
+            // Simulate slight delay
+            await new Promise(r => setTimeout(r, 800));
+
+            try {
+                const data = await window.api.post('/shipment', payload);
+
+                if (data.success) { // api.post returns json data directly
+                    closeModal();
+                    // Show Success Modal
+                    document.getElementById('successTrackingId').innerText = trackingId;
+                    document.getElementById('successModal').style.display = 'flex';
+                } else {
+                    alert('Error: ' + (data.message || 'Purchase failed'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('An error occurred during purchase.');
+            } finally {
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>
