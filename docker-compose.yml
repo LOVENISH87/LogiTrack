@@ -1,0 +1,44 @@
+services:
+  # Backend-API 
+  backend:
+    build: ./backend
+    container_name: logitrack-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/logitrack
+      - JWT_SECRET=supersecretkey_change_this_in_production
+      - PORT=5000
+    depends_on:
+      - mongodb
+    networks:
+      - logi-network
+
+  # Frontend
+  frontend:
+    build: ./frontend
+    container_name: logitrack-frontend
+    ports:
+      - "80:80"  # host port :: container port
+    depends_on:
+      - backend
+    networks:
+      - logi-network
+
+  # MongoDB Database Service
+  mongodb:
+    image: mongo:latest
+    container_name: logitrack-db
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - logi-network
+
+networks:
+  logi-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
