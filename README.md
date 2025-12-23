@@ -14,8 +14,7 @@ A modern web application for tracking shipments and managing logistics operation
 
 ## Requirements
 
-- PHP 7.4 or higher
-- MySQL 5.7 or higher
+- MongoDB
 - Web server (Apache/Nginx)
 - Modern web browser
 
@@ -27,5 +26,6 @@ A modern web application for tracking shipments and managing logistics operation
    ```
 
 2. Create a MySQL database named `logistics_db` (or update the database name in `php/config.php`)
+
 
 
