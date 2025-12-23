@@ -52,23 +52,45 @@
 
                 <form class="sign-up-form" style="display: none;">
                     <h2 class="title">Sign Up</h2>
-                    <div class="input-field">
-                        <i class="fas fa-user"></i>
-                        <input type="text" name="username" placeholder="Username" required />
+                    <div class="input-group">
+                        <div class="input-field">
+                            <i class="fas fa-user"></i>
+                            <input type="text" name="username" placeholder="Username" required />
+                        </div>
+                        <span class="error-text" id="username-error"></span>
                     </div>
-                    <div class="input-field">
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" name="email" placeholder="Email" required />
+
+                    <div class="input-group">
+                        <div class="input-field">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" name="email" placeholder="Email" required />
+                        </div>
+                        <span class="error-text" id="email-error"></span>
                     </div>
-                    <div class="input-field">
-                        <i class="fas fa-phone"></i>
-                        <input type="tel" name="phone" placeholder="Phone Number" required />
+
+                    <div class="input-group">
+                        <div class="input-field">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" name="phone" placeholder="Phone Number" required />
+                        </div>
+                        <span class="error-text" id="phone-error"></span>
                     </div>
-                    <div class="input-field">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" name="password" placeholder="Password" required />
+
+                    <div class="input-group">
+                        <div class="input-field">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="signup-password" name="password" placeholder="Password" required />
+                        </div>
+                        <div class="strength-meter">
+                            <div class="strength-bar"></div>
+                        </div>
+                        <span class="error-text" id="password-error"></span>
                     </div>
-                    <input type="submit" value="Sign Up" class="btn solid" />
+
+                    <button type="submit" class="btn solid" id="signup-btn">
+                        <span class="btn-text">Sign Up</span>
+                        <div class="loader" style="display: none;"></div>
+                    </button>
                     <button type="button" class="btn transparent" id="back-to-welcome-2">Back</button>
                 </form>
             </div>
