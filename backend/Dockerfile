@@ -1,20 +1,18 @@
-# Use Node.js 20 (LTS) version
-FROM node:20-alpine
+FROM node:20-alpine AS builder
 
-# Set working directory
 WORKDIR /app
-
-# Copy package from package.json and package-lock.json
 COPY package*.json ./
+RUN npm ci --production
 
-# Install dependencies 
-RUN npm install
+FROM node:20-alpine
+WORKDIR /app
+COPY --from=builder /app/node_modules ./node_modules
+COPY server.js ./
+COPY models/ ./models/
+COPY routes/ ./routes/
+COPY controllers/ ./controllers/
+COPY middleware/ ./middleware/
 
-# Copy the rest of the backend code
-COPY . .
-
-# Expose the API port
 EXPOSE 5000
-
-# Start the server
+USER node
 CMD ["npm", "start"]
