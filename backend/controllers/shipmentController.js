@@ -12,7 +12,11 @@ exports.getShipmentDetails = async (req, res) => {
 
     try {
         let query = {};
-        if (type === 'order') {
+        if (value.startsWith('TRK-')) {
+            query = { trackingId: value };
+        } else if (value.startsWith('ORD-')) {
+            query = { orderId: value };
+        } else if (type === 'order') {
             query = { orderId: value };
         } else if (type === 'tracking') {
             query = { trackingId: value };

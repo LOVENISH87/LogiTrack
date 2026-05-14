@@ -2530,6 +2530,13 @@
                     return;
                 }
 
+                // Auto-detect search type based on prefix
+                if (searchValue.startsWith('TRK-')) {
+                    searchType = 'tracking';
+                } else if (searchValue.startsWith('ORD-')) {
+                    searchType = 'order';
+                }
+
                 errorMessage.style.display = 'none';
 
                 // Generate random status (for demo purposes)
