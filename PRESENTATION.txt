@@ -1,0 +1,79 @@
+Slide 1: Introduction to LogiTrack
+-----------------------------------
+Title: LogiTrack - Logistics Tracking System
+
+Overview:
+LogiTrack is a modern web application designed to streamline logistics operations and provide real-time shipment tracking. It serves as a unified platform bridging dispatch centers, delivery agents, and customers.
+
+Core Objectives:
+• Visibility: Transparent, real-time tracking for all shipments.
+• Efficiency: Centralized operations to reduce manual overhead.
+• Security: Authenticated access and secure data management.
+
+
+Slide 2: Key Features
+-----------------------------------
+What makes LogiTrack stand out?
+
+• Real-time Tracking: Instantly search shipments by Tracking ID or Order ID.
+• Robust Authentication: Secure user registration, email verification, and session management.
+• Responsive Design: Clean, modern interface accessible across desktops, tablets, and smartphones.
+• Profile Management: Users can seamlessly manage profiles and update credentials.
+• Dockerized Backend: Easy, consistent deployment across any environment.
+
+
+Slide 3: System Architecture
+-----------------------------------
+How the system connects:
+
+1. Client Side (Frontend)
+   • react/html/css/js UI handling user interactions.
+   • Interacts with the backend via REST APIs.
+
+2. Server Side (Backend)
+   • Node.js & Express server.
+   • Handles routing, authentication middlewares, and business logic controllers.
+
+3. Database (MongoDB)
+   • NoSQL database for flexible data storage.
+   • Uses Mongoose ORM for structured data models.
+
+
+Slide 4: Technology Stack
+-----------------------------------
+The tools powering LogiTrack:
+
+• Frontend: HTML5, Vanilla CSS, Vanilla JavaScript.
+• Backend: Node.js, Express.js, JSON Web Tokens (JWT) for Auth.
+• Database: MongoDB, Mongoose ORM.
+• DevOps & Deployment: Docker (Containerization), Jenkins (CI/CD Pipeline).
+
+
+Slide 5: Data Models
+-----------------------------------
+Core Database Entities:
+
+• User: 
+  Stores authentication details (Username, Email, Password, Verification Status).
+
+• Shipment: 
+  Tracks logistics data (Tracking ID, Order ID, Status, Origin, Destination, Current Location).
+
+• Agent: 
+  Manages delivery personnel info (Name, Vehicle Type, Contact Number).
+
+Relationships:
+Users track Shipments; Agents deliver Shipments.
+
+
+Slide 6: CI/CD & Deployment Workflow
+-----------------------------------
+Automated integration and delivery process:
+
+1. Code Commit: Developer pushes code to the main branch on GitHub.
+2. CI Trigger: GitHub webhook triggers the Jenkins Pipeline.
+3. Build & Test: Jenkins checks out code and runs build/test stages.
+4. Registry Push: Jenkins builds the new Docker image and pushes it to the registry.
+5. Deployment: The production server pulls the latest image and restarts the containers.
+
+Result: Seamless, zero-downtime updates driven by Jenkins.
