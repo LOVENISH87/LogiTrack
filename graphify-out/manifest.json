@@ -1,0 +1,317 @@
+{
+  "/home/batman/Documents/GitHub/LogiTrack/.claude/settings.local.json": {
+    "mtime": 1779174086.5226023,
+    "ast_hash": "ad4ae348f9a519e0858f64a41986468a",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/package.json": {
+    "mtime": 1778795047.4409013,
+    "ast_hash": "fbb79c0e178f1fe8f7cae46f98951e48",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/shared-data.js": {
+    "mtime": 1777713179.4425688,
+    "ast_hash": "3f62673c4134a6c6081b8fcf972568c5",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/check_user.js": {
+    "mtime": 1777713179.326472,
+    "ast_hash": "25eb5e41d3e6f253586be551381eceff",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/verify_local.js": {
+    "mtime": 1777713179.4425688,
+    "ast_hash": "e249ae5389f4436914d6711eaf3a7ffe",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/test_track2.js": {
+    "mtime": 1778796970.0966957,
+    "ast_hash": "706c8b6704fd934556f76fb49ea138fa",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/make_admin.js": {
+    "mtime": 1777713179.3266697,
+    "ast_hash": "5835c01040eca916b3e2b02650707062",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/seedProducts.js": {
+    "mtime": 1777713179.4425688,
+    "ast_hash": "3a2462f46073d5fb132c551ef32117b4",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/seed_agents.js": {
+    "mtime": 1777713179.4425688,
+    "ast_hash": "d1efca31590e54a3a8911b1c908d5584",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/bat.cpp": {
+    "mtime": 1778805809.4250104,
+    "ast_hash": "ecf017d583b5634737454bf1f777cd4c",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/test_track.js": {
+    "mtime": 1778796940.7683249,
+    "ast_hash": "7ac704eafab86420da23fe0bf6fa4c05",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/verify_random.js": {
+    "mtime": 1777713179.4425688,
+    "ast_hash": "45535a6eec93bc9bb4c055db97a2f369",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/test_mongo_connection.js": {
+    "mtime": 1777713179.4425688,
+    "ast_hash": "e97161e7468fc62d8cbf337a0df723a9",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/server.js": {
+    "mtime": 1777713179.4425688,
+    "ast_hash": "294b6fc4712da1c99faff52b0c18a2fd",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/seedAgents.js": {
+    "mtime": 1777713179.4425688,
+    "ast_hash": "4121e4b1c2e58c49e157c43aaf4dc50a",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/test_local_connection.js": {
+    "mtime": 1777713179.4425688,
+    "ast_hash": "6b36fa88652727e459651e6a13de983a",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/routes/auth.js": {
+    "mtime": 1777713179.442274,
+    "ast_hash": "d8f60761039ec617bfe5c77adc34817f",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/routes/shipment.js": {
+    "mtime": 1777713179.4425688,
+    "ast_hash": "3fed5c0456dc9dc05e9c509122395518",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/routes/product.js": {
+    "mtime": 1777713179.4425688,
+    "ast_hash": "9034d69e6b2b4bb1346cd9908a9127c7",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/controllers/productController.js": {
+    "mtime": 1777713179.3266697,
+    "ast_hash": "5226aeb1ca961be8e6bdb6a15e0cfe5e",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/controllers/shipmentController.js": {
+    "mtime": 1778797001.9391358,
+    "ast_hash": "4c0e089509a58e0c82fec87ad945869d",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/controllers/authController.js": {
+    "mtime": 1777713179.326472,
+    "ast_hash": "920ca9be2ced43e199e65ea3a83be88c",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/models/Product.js": {
+    "mtime": 1777713179.326875,
+    "ast_hash": "cfe281dd0666d6ecbc7e592007416169",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/models/User.js": {
+    "mtime": 1777713179.326987,
+    "ast_hash": "b158b9283cd0a0510977b33aa6f98588",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/models/Shipment.js": {
+    "mtime": 1777713179.326987,
+    "ast_hash": "529856521a02bf12c14d4bd2ae891e52",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/middleware/adminMiddleware.js": {
+    "mtime": 1777713179.3266697,
+    "ast_hash": "56d8d853042b2cb38cb9f17080ebabf9",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/backend/middleware/authMiddleware.js": {
+    "mtime": 1777713179.326875,
+    "ast_hash": "3bbbd0a16a7bd3e771fc887fc4fe0363",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/package.json": {
+    "mtime": 1778795234.4342074,
+    "ast_hash": "66a80146ab0113efb4c6fdfeb4ec8b13",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/js/dashboard.js": {
+    "mtime": 1777713179.4441895,
+    "ast_hash": "8e55bc4c72bc2fd21d2cf08085c946db",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/js/shared-data.js": {
+    "mtime": 1777713179.4441895,
+    "ast_hash": "36698015303fa55aa03a53731f551947",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/js/app.js": {
+    "mtime": 1778806508.3098094,
+    "ast_hash": "6feebe7f427b6aee0bdcb23bdc56837e",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/js/api.js": {
+    "mtime": 1778829187.4460037,
+    "ast_hash": "69ef6ec432a149fef102bc958fdbfabc",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/PRESENTATION.txt": {
+    "mtime": 1778824696.9092624,
+    "ast_hash": "d573f406c65c3c81c5953e5de9bdda9d",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/CICD_SETUP.md": {
+    "mtime": 1777713415.929691,
+    "ast_hash": "9f8767403071c7d5cba34a03f0b5292c",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/LogiStore_Walkthrough.md": {
+    "mtime": 1777713179.3258703,
+    "ast_hash": "eb5aa51cac39712d8be1a209cd58dec9",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/README.md": {
+    "mtime": 1777713179.3258703,
+    "ast_hash": "93e69b53402d78841d0bb5ee618ca023",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/docker-compose.yml": {
+    "mtime": 1777713179.4425688,
+    "ast_hash": "0509622fbf4b3a82f78238da7873f4b6",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/.github/workflows/ci.yml": {
+    "mtime": 1778805941.7924821,
+    "ast_hash": "4c03f5b32f69e40547f95f51ebab9788",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/about.html": {
+    "mtime": 1777713179.4430754,
+    "ast_hash": "efca23ee80d00ebed308fe99e9ed7b07",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/shipment-details.html": {
+    "mtime": 1777713179.5856938,
+    "ast_hash": "b47ebeb4b9c56440889d4e168a5857c8",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/test_connection.html": {
+    "mtime": 1777713179.5858712,
+    "ast_hash": "f1f70b9759a7a2d7598a8cfca44b7441",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/shop.html": {
+    "mtime": 1777713179.5858712,
+    "ast_hash": "a11d35710d83f133e0f751f35f3935bb",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/contact.html": {
+    "mtime": 1777713179.4430754,
+    "ast_hash": "968e58710540186cdeef3fc2868029d6",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/admin.html": {
+    "mtime": 1777713179.4430754,
+    "ast_hash": "687ed8c364033ff998179b74be2ad101",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/index.html": {
+    "mtime": 1777713179.4435987,
+    "ast_hash": "4142205d4c8db64249c24a8ca90b891a",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/history.html": {
+    "mtime": 1777713179.4435987,
+    "ast_hash": "8ba776c8e7f963d3e863b5f0ae1d239c",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/shipment-history.html": {
+    "mtime": 1777713179.5858712,
+    "ast_hash": "d6dc41792391a73fb7c785ea298b770b",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/all-shipments.html": {
+    "mtime": 1777713179.4430754,
+    "ast_hash": "0b89d76d4bb43bfabfe658b55eb56071",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/dashboard.html": {
+    "mtime": 1778805773.7552671,
+    "ast_hash": "dcc0d3b9e908fb8491984b08882cb867",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/pages/about.html": {
+    "mtime": 1777713179.585277,
+    "ast_hash": "41238af82ed7726faa04305990c0c111",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/pages/contact.html": {
+    "mtime": 1777713179.5856938,
+    "ast_hash": "fabb091569aa7a43f95c504b83b81b2e",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/pages/policies.html": {
+    "mtime": 1777713179.5856938,
+    "ast_hash": "484b221d7e83c468deec23a8e52def7f",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/pages/suggestions.html": {
+    "mtime": 1777713179.5856938,
+    "ast_hash": "246bcb728b378a6e542ba96d3ac97f90",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/logishop/scale.png": {
+    "mtime": 1777714644.6883793,
+    "ast_hash": "c3ed8d5c3ec4e3c792c53a335afe0bbd",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/logishop/cutter.png": {
+    "mtime": 1777714641.8988006,
+    "ast_hash": "201d861b99403724a63fdc0eafd06430",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/logishop/box.png": {
+    "mtime": 1777714637.620914,
+    "ast_hash": "f7f3edd4c8640db8cae09cf2bae0aabd",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/logishop/tshirt.png": {
+    "mtime": 1777714646.8208215,
+    "ast_hash": "7a253d00d352756d006017746f8e96ba",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/logishop/printer.png": {
+    "mtime": 1777714643.8662086,
+    "ast_hash": "9150485aeae492b8076196bd6dc9117b",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/logishop/bubblewrap.png": {
+    "mtime": 1777714639.112223,
+    "ast_hash": "cb6169dbe1c555299a85e6763b4473db",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/logishop/scanner.png": {
+    "mtime": 1777714645.598568,
+    "ast_hash": "de29513341422afebb784f5d04d959f3",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/logishop/pallet.png": {
+    "mtime": 1777714643.0700436,
+    "ast_hash": "7758655e5b5fd3bdac38d67c2d2c4a90",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/logishop/cap.png": {
+    "mtime": 1777714640.8915918,
+    "ast_hash": "0623eaed9d5f5d66913b3329ef976dd8",
+    "semantic_hash": ""
+  },
+  "/home/batman/Documents/GitHub/LogiTrack/frontend/logishop/tape.png": {
+    "mtime": 1777714646.190691,
+    "ast_hash": "1ae9393dd1e343476318bc479539fe75",
+    "semantic_hash": ""
+  }
+}

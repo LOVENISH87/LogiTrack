@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = 'logitrack-backend'
+        FRONTEND_IMAGE = 'logitrack-frontend'
         DOCKER_TAG = "v${env.BUILD_NUMBER}"
     }
 
@@ -32,10 +33,18 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build Backend Docker Image') {
             steps {
                 dir('backend') {
                     sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} -t ${DOCKER_IMAGE}:latest ."
+                }
+            }
+        }
+
+        stage('Build Frontend Docker Image') {
+            steps {
+                dir('frontend') {
+                    sh "docker build -t ${FRONTEND_IMAGE}:${DOCKER_TAG} -t ${FRONTEND_IMAGE}:latest ."
                 }
             }
         }
@@ -55,8 +64,8 @@ pipeline {
     post {
         always {
             echo 'Pipeline execution completed.'
-            // Clean up old images if needed
-            // sh "docker rmi ${DOCKER_IMAGE}:${DOCKER_TAG} || true"
+            sh "docker rmi ${DOCKER_IMAGE}:${DOCKER_TAG} || true"
+            sh "docker rmi ${FRONTEND_IMAGE}:${DOCKER_TAG} || true"
         }
         success {
             echo 'Build was successful! Proceeding to deployment phase.'
