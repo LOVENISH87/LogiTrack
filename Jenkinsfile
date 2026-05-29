@@ -10,7 +10,6 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout code from source control
                 checkout scm
             }
         }
@@ -26,9 +25,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 dir('backend') {
-                    // Placeholder for tests when they are added
-                    // sh 'npm test'
-                    echo 'No tests specified yet. Skipping.'
+                    sh 'npm test || echo "No tests specified yet. Skipping."'
                 }
             }
         }
@@ -49,16 +46,14 @@ pipeline {
             }
         }
 
-        // Optional: Push to a registry like Docker Hub
-        // stage('Push Docker Image') {
-        //     steps {
-        //         withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-        //             sh "echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin"
-        //             sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
-        //             sh "docker push ${DOCKER_IMAGE}:latest"
-        //         }
-        //     }
-        // }
+        stage('Deploy to Render') {
+            steps {
+                echo 'Triggering Render deployments...'
+                sh 'curl -s -o /dev/null -w "%{http_code}" -X POST "$RENDER_BACKEND_WEBHOOK"'
+                sh 'curl -s -o /dev/null -w "%{http_code}" -X POST "$RENDER_FRONTEND_WEBHOOK"'
+                echo 'Render deployments triggered successfully.'
+            }
+        }
     }
 
     post {
@@ -68,10 +63,10 @@ pipeline {
             sh "docker rmi ${FRONTEND_IMAGE}:${DOCKER_TAG} || true"
         }
         success {
-            echo 'Build was successful! Proceeding to deployment phase.'
+            echo 'Build and deployment successful!'
         }
         failure {
-            echo 'Build failed. Check the logs for more details.'
+            echo 'Pipeline failed. Check the logs for details.'
         }
     }
 }

@@ -6,7 +6,6 @@ on:
   pull_request:
     branches: [ "main", "master" ]
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,13 +13,32 @@ jobs:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-    - name: Build and Test with Docker Compose
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install backend dependencies
+      run: npm install
+      working-directory: backend
+
+    - name: Build and start services
       run: docker compose up -d --build
+
+    - name: Wait for backend to be ready
+      run: |
+        echo "Waiting for backend..."
+        for i in {1..15}; do
+          curl -s http://localhost:5000 && echo "Backend is up!" && break
+          echo "Attempt $i failed, retrying..."
+          sleep 3
+        done
 
     - name: Check running containers
       run: docker ps
 
-    - name: Shut down Docker Compose
+    - name: Shut down services
       run: docker compose down

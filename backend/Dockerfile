@@ -12,6 +12,7 @@ COPY models/ ./models/
 COPY routes/ ./routes/
 COPY controllers/ ./controllers/
 COPY middleware/ ./middleware/
+COPY utils/ ./utils/
 
 EXPOSE 5000
 USER node
